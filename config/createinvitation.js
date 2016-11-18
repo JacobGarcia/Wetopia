@@ -65,7 +65,7 @@ var insertInvite = function(req, callback) {
       sendgrid.API(recipient_request, function (error, response) {
         //Get recipient id
         console.log("Recipients status: " + response.statusCode)
-        console.log("The error: " + error);
+        console.log("The error: " + error.response);
         console.log("Recipients body: " + response.body)
         console.log("Recipients headers: " + response.headers);
         var recipient_id = response.body.persisted_recipients[0];
