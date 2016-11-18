@@ -2,6 +2,16 @@ var Guest = require("../models/guest.js");
 var helper = require('sendgrid').mail;
 var sendgrid = require('sendgrid')(process.env.SENDGRID_API_KEY);
 
+var fs = require('fs');
+var util = require('util');
+var log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'w'});
+var log_stdout = process.stdout;
+
+console.log = function(d) { //
+  log_file.write(util.format(d) + '\n');
+  log_stdout.write(util.format(d) + '\n');
+};
+
 var insertInvite = function(req, callback) {
   // Create invite
   console.dir(req.body);
