@@ -65,9 +65,9 @@ var insertInvite = function(req, callback) {
       sendgrid.API(recipient_request, function (error, response) {
         //Get recipient id
         console.log("Recipients status: " + response.statusCode)
-        console.log("The error: " + error.response);
-        console.log("Recipients body: " + response.body)
-        console.log("Recipients headers: " + response.headers);
+        console.log("The error: " + JSON.stringify(error.response));
+        console.log("Recipients body: " + JSON.stringify((response.body))
+        console.log("Recipients headers: " + JSON.stringify((response.headers));
         var recipient_id = response.body.persisted_recipients[0];
 
         // Add to contact list
