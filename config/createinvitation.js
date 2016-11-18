@@ -2,15 +2,15 @@ var Guest = require("../models/guest.js");
 var helper = require('sendgrid').mail;
 var sendgrid = require('sendgrid')(process.env.SENDGRID_API_KEY);
 
-var fs = require('fs');
-var util = require('util');
-var log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'w'});
-var log_stdout = process.stdout;
-
-console.log = function(d) { //
-  log_file.write(util.format(d) + '\n');
-  log_stdout.write(util.format(d) + '\n');
-};
+// var fs = require('fs');
+// var util = require('util');
+// var log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'w'});
+// var log_stdout = process.stdout;
+//
+// console.log = function(d) { //
+//   log_file.write(util.format(d) + '\n');
+//   log_stdout.write(util.format(d) + '\n');
+// };
 
 var insertInvite = function(req, callback) {
   // Create invite
@@ -50,6 +50,11 @@ var insertInvite = function(req, callback) {
     body: [{"email": newGuest.email, "first_name": newGuest.name, "interest": newGuest.preference}]
   });
 
+  // GET Collection
+  var api_keys = sendgrid.emptyRequest({
+    method: 'GET',
+    path: '/v3/api_keys'
+  });
 
   // Save user on db - create recipient - add it to list - send email
   newGuest.save(function(error, guest) {
@@ -65,7 +70,6 @@ var insertInvite = function(req, callback) {
       sendgrid.API(recipient_request, function (error, response) {
         //Get recipient id
         console.log("Recipients status: " + response.statusCode)
-        console.log("The error: " + JSON.stringify(error.response));
         console.log("Recipients body: " + JSON.stringify(response.body))
         console.log("Recipients headers: " + JSON.stringify(response.headers));
         var recipient_id = response.body.persisted_recipients[0];
