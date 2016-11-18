@@ -66,8 +66,8 @@ var insertInvite = function(req, callback) {
         //Get recipient id
         console.log("Recipients status: " + response.statusCode)
         console.log("The error: " + JSON.stringify(error.response));
-        console.log("Recipients body: " + JSON.stringify((response.body))
-        console.log("Recipients headers: " + JSON.stringify((response.headers));
+        console.log("Recipients body: " + JSON.stringify(response.body))
+        console.log("Recipients headers: " + JSON.stringify(response.headers));
         var recipient_id = response.body.persisted_recipients[0];
 
         // Add to contact list
