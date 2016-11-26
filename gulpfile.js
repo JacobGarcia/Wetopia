@@ -52,6 +52,7 @@ gulp.task('webpack', function(){
   .pipe(gulp.dest('public/js'))
 })
 
+
 gulp.task('watch', function () {
   gulp.watch("./src/views/**/*.html", ['htmlminify'])
   gulp.watch('./src/js/**/*.js', ['webpack'])
