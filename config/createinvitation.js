@@ -2,16 +2,6 @@ var Guest = require("../models/guest.js");
 var helper = require('sendgrid').mail;
 const sendgrid = require('sendgrid')('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');
 
-// var fs = require('fs');
-// var util = require('util');
-// var log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'w'});
-// var log_stdout = process.stdout;
-//
-// console.log = function(d) { //
-//   log_file.write(util.format(d) + '\n');
-//   log_stdout.write(util.format(d) + '\n');
-// };
-
 var insertInvite = function(req, callback) {
   // Create invite
   console.dir(req.body);
