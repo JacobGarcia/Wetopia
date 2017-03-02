@@ -13,7 +13,7 @@ var insertInvite = function(req, callback) {
   newGuest.preference = req.body.preference;
 
   // Set email information
-  var from_email = new helper.Email('hello@musement.co', 'Wetopia'); //email, fromname
+  var from_email = new helper.Email('hello@wetopia.co', 'Wetopia'); //email, fromname
   var to_email = new helper.Email(newGuest.email);
   var subject = 'Invitation Request';
   var content = new helper.Content('text/html', 'Welcome to Wetopia'); //This is literally the content; expressed in html if template is needed

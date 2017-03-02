@@ -113,16 +113,16 @@
                 </p>
             </div>
             <div class="form_hexagon">
-                <input type="text" class="secondForm_form" name="name" placeholder="Nombre">
-                <input type="email" class="secondForm_form" name="email" placeholder="Correo">
-                <select class="secondForm_form" name="">
-              <option disabled selected value>¿Qué Necesitas?</option>
+                <input ng-model="guest.name1" type="text" class="secondForm_form" name="name" placeholder="Nombre">
+                <input ng-model="guest.email1" type="email" class="secondForm_form" name="email" placeholder="Correo">
+                <select class="secondForm_form" ng-model="guest.preference1" name="">
+              <option  disabled selected value>¿Qué Necesitas?</option>
               <option value="validate">Validar Idea / Proyecto</option>
               <option value="team">Encontrar Equipo</option>
               <option value="advice">Asesoría</option>
               <option value="investment">Inversión</option>
             </select>
-                <input type="submit" id="secondForm_button" name="send" value="Quiero ser parte">
+                <input type="submit" name="send" value="Quiero ser parte" ng-click="submit1(guest)" id="secondForm_button">
             </div>
         </div>
         <!-- End SecondForm -->
