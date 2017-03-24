@@ -9,9 +9,11 @@ let express = require('express'),
 
 //Models
 let User = require("../models/user.js"),
-    Project = require("../models/project.js"),
+    Idea = require("../models/idea.js"),
     Moment = require("../models/moment.js"),
-    Tag = require("../models/tag.js")
+    Category = require("../models/category.js"),
+    Feedback = require("../models/feedback.js"),
+    Guest = require("../models/guest.js")
 
 //config files
 let invite = require("../config/createinvitation.js"),
@@ -35,12 +37,37 @@ router.post('/upload', function(req, res) { // API path that will upload the fil
   })
 })
 
+//invite a user to Wetopia
+router.post('/invitation', function(req, res) {
+  //find if the user is not already in the invitation database
+  Guest.findOne({ 'email': req.body.email.toLowerCase()}, 'email')
+  .exec(function (err, user) { // if there are any errors, return the error
+    if (err) {
+      res.status(500).json({'error': err, 'success': "false", 'message': "Error finding that user or email."}); // return shit if a server error occurs
+    }
+    else {
+      if (user) { //TODO: it would be better to validate all this with mongoose
+        if (user.email == req.body.email)
+          res.status(400).json({'message': "That email and username are already registered. Try with another ones."})
+      }
+      else {
+        invite.insertInvite(req, function(response){
+          if (response.success)
+            res.status(201).json({'message': 'Thanks, please check your email :)'})
+          else
+            res.status(500).json({'message': 'Ops! Please try again :('})
+        })
+      }
+    }
+  })
+})
+
 //register NEW USER
 router.post('/signup', function(req, res){
   User.findOne({ $or: [ { 'email': req.body.email.toLowerCase() }, { 'username': req.body.username.toLowerCase() } ]}, 'email username')
   .exec(function (err, user) { // if there are any errors, return the error
     if (err) {
-      res.status(500).json({'error': err, 'success': "false", 'message': "Error finding that user or email."}); // return shit if the user is already registered
+      res.status(500).json({'error': err, 'success': "false", 'message': "Error finding that user or email."}); // return shit if a server error occurs
     } else {
       if (user) { //TODO: it would be better to validate all this with mongoose
         if (user.username == req.body.username && user.email == req.body.email)
@@ -52,9 +79,8 @@ router.post('/signup', function(req, res){
       } else {
         new User({
           email: req.body.email,
-          surname: req.body.surname,
+          lastname: req.body.lastname,
           name: req.body.name,
-          tags: req.body.tags,
           username: req.body.username,
           password: bcrypt.hashSync(req.body.password),
           image: req.body.image || null
@@ -96,17 +122,10 @@ router.post('/authenticate', function(req, res) {
   })
 })
 
-router.post('/invitation', function(req, res) {
-  invite.insertInvite(req, function(response){
-    if (response.success)
-      res.status(201).json({'message': 'Thanks, please check your email :'})
-    else
-      res.status(500).json({'message': 'Ops! Please try again :'})
-  })
-})
-// Tag consulting
+
+// Category consulting
 router.get('/tags', function(req, res){
-  Tag.find({})
+  Category.find({})
   .exec(function(err, tags){
     if (err)
       res.status(500).json({'error': err})
@@ -114,6 +133,7 @@ router.get('/tags', function(req, res){
       res.json(tags);
   })
 })
+
 // Members consulting
 router.get('/members', function(req, res) {
   User.find({}, 'name surname username image', function(err, users){
@@ -339,8 +359,8 @@ router.route('/users/:user_id/avatar')
   })
 })
 
-router.route('/moments/:moment_id/feedback')
-.get(function (req, res) { //Get detailed information of the moment
+router.route('/ideas/:idea_id/feedback')
+.get(function (req, res) { //Get detailed information of the idea
   Moment.findById(req.params.moment_id, 'feedback')
   .populate('feedback')
   .sort('-feedback._id')
@@ -354,20 +374,30 @@ router.route('/moments/:moment_id/feedback')
   });
 })
 .post(function (req, res) {
-  let feedback = req.body.text;
-  //TODO: add attachments into the feedback
-  Moment.findById(req.params.moment_id) //User, comment
-  .update({ $addToSet: { 'feedback': {'user': req.U_ID, 'text': feedback} } })
-  .exec(function(err) {
-    if (err) {
-      res.status(500).json({'error': err});
-    } else {
-      res.status(201).json({'message': "Feedback sent."});
-    }
+  /* COMMENT AN IDEA */
+  let feedback = new Feedback({
+    user: req.U_ID,
+    comment: req.body.text
   });
+
+  feedback.save(function(err, feedback) {
+    if (err)
+      return res.status(500).json({'err':err})
+    Idea.update(
+      { _id: {$in: req.params.idea_id} },
+      { $push: {"feedback":  feedback._id} },
+      { multi: true }
+    )
+    .exec(function(err){
+      if (err)
+        return res.status(500).json({'error': err,});
+      else
+        res.status(201).json({message: 'Feedback sent.'});
+    })
+  })
 });
 
-router.route('/moments/:moment_id/likes')
+router.route('/ideas/:idea_id/:feedback_id/star')
 .get(function (req, res) {
   Moment.findById(req.params.moment_id, 'likes')
   .exec(function(err, moment) {
@@ -382,15 +412,16 @@ router.route('/moments/:moment_id/likes')
   })
 })
 .post(function (req, res) {
-  Moment.findById(req.params.moment_id)
-  .update({ $addToSet: { hearts: req.U_ID } })
+  /* Starr a Feddback on an IDEA */
+  Feedback.findById(req.params.feedback_id)
+  .update({ $addToSet: { 'stars': req.U_ID } })
   .exec(function(err, result) {
     if (err) {
       res.status(500).json({'error': err})
-    } else if (result.nModified == 0) //If the moment wasn't modified, means it didn't liked
-      res.status(400).json({'message': "Already liked."})
+    } else if (result.nModified == 0) //If the comment wasn't modified, it was already starred
+      res.status(400).json({'message': "Already starred."})
     else {
-      res.status(201).json({'message': "Successfully liked"})
+      res.status(201).json(result)
     }
   })
 })
@@ -402,6 +433,22 @@ router.route('/moments/:moment_id/likes')
     else
       res.status(200).json({"message": "Successfully un-liked"})
     console.log(moment)
+  })
+})
+
+router.route('/ideas/:idea_id/interest')
+.post(function (req, res) {
+  /* Show Interest on an IDEA */
+  Idea.findById(req.params.idea_id)
+  .update({ $addToSet: {'interest': {'userID': req.U_ID, 'type':req.body.interest} } })
+  .exec(function(err, result) {
+    if (err) {
+      res.status(500).json({'error': err})
+    } else if (result.nModified == 0) //If the comment wasn't modified, it was already starred
+      res.status(400).json({'message': "Already shown interest."})
+    else {
+      res.status(201).json(result)
+    }
   })
 })
 
@@ -421,7 +468,7 @@ router.route('/users/u=:username/p=:project')
     else if (!user)
     res.status(404).json({'err':{'errmsg': "No user found"}})
     else {
-      Project.findOne({'name': req.params.project, 'members': user._id})
+      Idea.findOne({'name': req.params.project, 'members': user._id})
       .exec(function(err, project) {
         if (err)
         res.status(500).json({'error': err});
@@ -432,9 +479,9 @@ router.route('/users/u=:username/p=:project')
   })
 })
 
-router.route('/users/:user_id/projects')
+router.route('/users/:user_id/ideas')
 .get(function (req, res) { //remove like from moment
-  Project.find({'members':req.params.user_id})
+  Idea.find({'members':req.params.user_id})
   .populate('members','name username surname image color')
   .exec(function(err, projects) {
     if (err)
@@ -443,42 +490,45 @@ router.route('/users/:user_id/projects')
       res.status(200).json({'projects': projects})
   })
 })
-.post(function (req, res) {
-  let projectname = req.body.name.split(' ').join('-').toLowerCase()
+.post(function (req, res) { /* CREATE AN IDEA */
+  let ideaname = req.body.name.split(' ').join('-').toLowerCase()
 
-  Project.findOne({members: req.U_ID, projectname: projectname})
-  .exec(function(err,projectFound){
+  Idea.findOne({members: req.U_ID, ideaname: ideaname})
+  .exec(function(err, ideaFound){
     if (err) {
       return res.status(500).json({'err':err})
     }
-    if (projectFound)
-      return res.status(300).json({'err':{message: "Error, you allready have a project with this name"}})
+    if (ideaFound)
+      return res.status(300).json({'err':{message: "Error, you already have an idea with this name"}})
 
-    let project = new Project({
+    let idea = new Idea({
       admin: req.U_ID,
+      banner: req.body.banner,
       description: req.body.description,
+      problem: req.body.problem,
       name: req.body.name,
-      projectname: projectname
+      categories: req.body.categories,
+      ideaname: ideaname
     })
     if (!req.body.members || req.body.members.length == 0)
-      project.members = [req.U_ID]
+      idea.members = [req.U_ID]
     else {
-      project.members = req.body.members
-      project.members.push(req.U_ID)
+      idea.members = req.body.members
+      idea.members.push(req.U_ID)
     }
-    project.save(function(err, project) {
+    idea.save(function(err, idea) {
       if (err)
         return res.status(500).json({'err':err})
       User.update(
-        { _id: {$in: project.members} },
-        { $push: {"projects":  project._id} },
+        { _id: {$in: idea.members} },
+        { $push: {"ideas":  idea._id} },
         { multi: true }
       )
       .exec(function(err){
         if (err)
           return res.status(500).json({'error': err,});
         else
-          res.status(201).json({message: 'Project created!', project: project});
+          res.status(201).json({message: 'Idea created!', idea: idea});
       })
     })
 
@@ -486,18 +536,19 @@ router.route('/users/:user_id/projects')
 
 })
 
-router.route('/projects/:project_id')
+/* GET the information for an idea */
+router.route('/ideas/:idea_id')
 .get(function (req, res) {
-  Project.findById(req.params.project_id)
+  Idea.findById(req.params.idea_id)
   .lean()
-  .populate('members moments', 'name surname username image color')
+  .populate('members', 'username image')
   .populate({
-    path: 'moments',
-    model: 'Moment',
+    path: 'feedback',
+    model: 'Feedback',
     populate: {
       path: 'user',
       model: 'User',
-      select: 'name username surname image color'
+      select: 'image name username'
     }
   })
   .exec(function (err, project) {
@@ -517,9 +568,10 @@ router.route('/projects/:project_id')
   res.status(501).json({'message':'Not yet supported.'})
 })
 
+
 router.route('/projects/:project_id/logo')
 .post(upload, function(req,res){
-  Project.findById(req.params.project_id)
+  Idea.findById(req.params.project_id)
   .exec(function(err, project) {
     if (err)
       return res.status(500).json({'error': err})
@@ -548,7 +600,7 @@ router.route('/projects/:project_id/moments')
 })
 .post(function (req, res) {
   //TODO: validate that the user owns this project
-  Project.findByIdAndUpdate(req.params.project_id, { $addToSet: {moments: req.body.moment} })
+  Idea.findByIdAndUpdate(req.params.project_id, { $addToSet: {moments: req.body.moment} })
   .exec(function(err) {
     if (err)
     res.status(500).json({'error': err, 'success': false});
