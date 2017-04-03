@@ -10,13 +10,15 @@ require('angular-translate-loader-static-files')
 require('angular-chart.js')
 require('angular-click-outside')
 require('angular-scroll')
+require('angulartics')
+require('angulartics-segment')
 
 //Change in production
 //to http://wetopia.co and in development to http://localhost:8080
 window.HOST = 'http://wetopia.co'
 
 angular.module('musementApp', ['ui.router', 'LocalStorageModule',
-        'angular-jwt', 'pascalprecht.translate', 'ngFileUpload', 'ngTagsInput', 'ngAnimate', 'chart.js', 'angular-click-outside', 'duScroll'
+        'angular-jwt', 'pascalprecht.translate', 'ngFileUpload', 'ngTagsInput', 'ngAnimate', 'chart.js', 'angular-click-outside', 'duScroll','angulartics', 'angulartics.segment'
     ]) //, 'ngFileUpload'
     .factory('httpRequestInterceptor', function(localStorageService) {
         return {

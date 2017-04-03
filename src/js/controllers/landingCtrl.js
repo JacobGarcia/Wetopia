@@ -14,7 +14,7 @@ angular.module("musementApp")
     $scope.error=false;
 
     $interval( function(){
-      $scope.experts=($scope.experts+1)%2;
+      $scope.experts=($scope.experts+1)%4;
     }, 12000);
 
 
@@ -56,18 +56,22 @@ $scope.visibility=true;
     }
 
 
-    $scope.submit = function(guest) {
+    $scope.submit = function(guest, position) {
     if (guest != null) {
         let invitationInfo = {};
         invitationInfo.email = this.guest.email;
-        invitationInfo.name = this.guest.name;
         JSON.stringify(invitationInfo);
         invitationDataService.invitation(invitationInfo, function(res) {
             if (res.status == 201){
-            $scope.error = false;
-            $scope.message = $translate.instant('VALID_EMAIL');
-            $scope.clearRequest();
-            $scope.thanks = true;
+              $scope.error = false;
+              $scope.message = $translate.instant('VALID_EMAIL');
+              $scope.clearRequest();
+              $scope.thanks = true;
+
+
+              analytics.track('Invitation:success', {
+                location: 'header'
+              });
           }
       },function(res) { //error callback
         switch (res.status) {
@@ -75,12 +79,17 @@ $scope.visibility=true;
           $scope.error=true;
           $scope.message = $translate.instant('INVALID_EMAIL');
           $scope.mailRequestError="Email already registered.  ";
+
+          analytics.track('Invitation:already-registered', {
+            location: 'header'
+          });
+
           break;
+          
           case 500:
           $scope.error=true;
           $scope.message = $translate.instant('INVALID_EMAIL');
           $scope.mailRequestError="Please enter a valid email address. ";
-
         }
       }
     );
