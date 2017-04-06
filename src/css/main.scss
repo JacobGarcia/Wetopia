@@ -177,10 +177,11 @@ input {
     }
 
     &.email{
-      max-width: 420px;
-      margin-top: 35px;
+      width: auto;
+      min-width: 315px;
       -webkit-justify-content: center;
       justify-content: center;
+      margin-bottom: 15px;
 
       .error{
         bottom: -30px;
@@ -194,7 +195,7 @@ input {
 
         &.center-advice{
           text-align: center;
-          margin-bottom: -20px;
+
         }
       }
       input{
@@ -211,7 +212,7 @@ input {
         border-right: 0px solid transparent;
 
         @media screen and (max-width: 500px){
-          width: 220px;
+          width: 180px;
         }
 
 
@@ -290,6 +291,10 @@ input {
             }
         }
     }
+}
+
+.changeVisibility{
+  visibility: hidden;
 }
 
 .form-button {
@@ -3109,23 +3114,27 @@ width: 100%;
     margin: 100px auto 100px auto;
 
     .sub-paragraph{
-      max-width: 450px;
+      max-width: 580px;
       text-align: center;
     }
 
     .title{
-      line-height: 60px;
+      line-height: 50px;
       color: $text-gray;
+
+      @media screen and (max-width: 500px){
+        font-size: 38px;
+        line-height: 40px;
+        margin-top: 50px;
+      }
     }
 
-    @media screen and (min-width: 1500px){
-      margin-bottom: 100px;
-    }
+
 
 }
 
 .title{
-  font-size: 55px;
+  font-size: 42px;
   font-family: 'Museo_700';
   font-weight: bold;
   line-height: 60px;
@@ -3159,6 +3168,8 @@ width: 100%;
 .flex-cont {
     display: -webkit-flex;
     display: flex;
+    -webkit-justify-content: center;
+    justify-content: center;
     width: 100%;
     position: relative;
     -webkit-flex-direction: column;
@@ -3202,7 +3213,7 @@ width: 100%;
     &.relative{
       position: relative;
       margin: auto;
-      width: auto;
+      max-width: 500px;
     }
 
     .experts-cont{
@@ -3320,6 +3331,7 @@ width: 100%;
       font-size: 22px;
       @media screen and (max-width: 500px){
         margin: 20px auto 20px auto;
+        font-size: 20px;
 text-align: center;
 max-width: 300px;
       }
@@ -3343,12 +3355,15 @@ max-width: 300px;
   margin: auto;
 
   img{
-    height: 100px;
+    height: 80px;
     margin: 50px 30px;
   }
 
   #gameTrady{
     height: 50px;
+    @media screen and (max-width: 500px){
+      height: 40px;
+    }
   }
 
   #maxAnders{
@@ -3372,6 +3387,12 @@ max-width: 300px;
 
       @media screen and (max-width: 400px){
         padding-bottom: 60px;
+      }
+
+      .flex-wrap{
+        @media screen and (max-width: 500px){
+          margin-top: 50px;
+        }
       }
 }
 
@@ -3460,14 +3481,18 @@ max-width: 300px;
       }
       flex-direction: column;
       padding: 130px 0;
+      justify-content: space-around;
+
 
       .sub-white{
-        margin: 60px auto;
-        font-size: 28px;
+        margin: 20% auto;
+        font-size: 30px;
+        flex-grow: 1;
         font-weight: bold;
         color: white;
         text-align: center;
         cursor: pointer;
+        flex-basis: auto;
       }
 
       .close-x{
@@ -3682,32 +3707,51 @@ max-width: 300px;
 }
 
 #how-it-works{
-  background: #D8D8D8;
-  padding: 35px 20px;
+  background: $gray-dark-medium;
+  padding: 85px 20px 60px;
+
 
   .flex-cont{
     flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 30px;
   }
+
   #gifMac{
-    margin-left: auto;
-    margin-right: 50px;
-    height: 250px;
+    margin: auto 50px auto auto;
+    height: 300px;
+
+    @media screen and (max-width: 985px){
+      margin: auto;
+      height: 250px;
+    }
+
+    @media screen and (max-width: 500px){
+      height: 180px;
+    }
   }
 
   .sub-gray{
     width: 100%;
   }
   .right-p{
-    max-width: 350px;
+    max-width: 380px;
+    min-width: 200px;
     text-align: left;
     margin-left: 50px;
     font-size: 18px;
     margin-bottom: 25px;
+    @media screen and (max-width: 920px){
+      margin: 15px auto;
+    }
   }
 
   .simple-cont{
-    margin-right: auto;
-    margin-left: 0;
+        margin: auto auto auto 0;
+
+    @media screen and (max-width: 860px){
+      margin: 20px auto auto auto;
+    }
   }
 }
 
@@ -3715,6 +3759,7 @@ max-width: 300px;
 #infographic{
   background: url('/static/img/color_land_bg.svg') no-repeat center;
   background-size: cover;
+  margin-top: 50px;
 
   .sub-gray{
     margin: 100px auto 30px auto;
@@ -3726,33 +3771,25 @@ max-width: 300px;
 
   .simple-cont{
     position: relative;
-    padding: 0 300px;
-    @media screen and (max-width: 850px){
-      padding: 0 70px;
-    }
-    @media screen and (max-width: 700px){
-      padding: 0 30px;
-    }
-    @media screen and (max-width: 500px){
-      padding: 0;
-    }
+    padding: 0 30px;
+    margin: auto;
 
-    .simple-cont{
-      &.movil{
-        position: absolute;
-        top: 0;
-        left: 0;
+    .desktop{
+      @media screen and (max-width: 850px){
         display: none;
-        @media screen and (min-height: 1000px){
-          display: block;
-          z-index: 10000;
-        }
-        @media screen and (max-width: 500px){
-          display: block;
-          z-index: 1000;
-        }
+        z-index: 1000;
       }
     }
+
+  .movil{
+        display: none;
+        @media screen and (max-width: 850px){
+          display: block;
+          z-index: 1000;
+          max-width: 500px;
+          margin: auto;
+        }
+      }
   }
 
   .infographic{
@@ -3811,10 +3848,10 @@ max-width: 300px;
     img{
       margin: 5px;
       cursor: pointer;
-      height: 35px;
+      height: 40px;
 
       @media screen and (max-width: 600px){
-        height: 28px;
+        height: 35px;
       }
     }
   }
@@ -3864,6 +3901,7 @@ max-width: 300px;
     margin: 120px auto 30px auto;
     font-size: 30px;
     font-weight: bold;
+    text-align: center;
 
     @media screen and (max-width: 420px){
       text-align: center;
@@ -3883,7 +3921,7 @@ max-width: 300px;
   }
 
   .blue-button{
-    margin: 30px auto 60px auto;
+    margin: auto;
     max-width: 255px;
     background: $link-blue-color;
     &:active{
@@ -3892,6 +3930,10 @@ max-width: 300px;
     &:active{
       transform: none;
     }
+  }
+
+  #form-input-footer{
+    margin-bottom: 100px;
   }
 
   .footer{
@@ -3937,12 +3979,12 @@ max-width: 300px;
       text-align: center;
 
       img{
-        margin: 2px;
+        margin: 5px;
         cursor: pointer;
-        height: 35px;
+        height: 38px;
 
         @media screen and (max-width: 600px){
-          height: 28px;
+          height: 35px;
         }
       }
     }
@@ -3998,10 +4040,15 @@ max-width: 300px;
     background-size: cover;
     z-index: 0;
     width: 100%;
+    min-height: 700px;
     top: 0;
     -webkit-justify-content: center;
     justify-content: center;
-    height: 700px;
+
+
+    @media screen and (max-width: 800px){
+      background-position: center ;
+    }
 }
 
 .simple-cont{
@@ -4020,21 +4067,15 @@ max-width: 300px;
 }
 
 #team-img{
-  //background: url('/static/img/IMG_BG.jpg') no-repeat center;
+  background: url('/static/img/IMG_BG-min.jpg') no-repeat center;
   background-size: cover;
   position: absolute;
   z-index: -1;
   bottom: 0;
   width: 100%;
-  height: 300px;
+  height: 50%;
 
-  @media screen and (max-width: 1200px){
-//    height: 800px;
-  }
-  @media screen and (max-width: 1030px){
-//    height: 700px;
-  }
-  @media screen and (max-width: 800px){
+  @media screen and (max-width: 600px){
     visibility: hidden;
   }
 }
