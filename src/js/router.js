@@ -43,10 +43,10 @@ angular.module('musementApp')
                 templateUrl: "/static/views/myIdea.html",
                 authenticate: false
             })
-            .state("showIdea", {
-                url: "/showIdea",
-                // controller: "",
-                templateUrl: "/static/views/showIdea.html",
+            .state("idea", {
+                url: "/idea",
+                controller: "ideaCtrl",
+                templateUrl: "/static/views/idea.html",
                 authenticate: false
             })
             .state("createIdea", {
@@ -73,9 +73,10 @@ angular.module('musementApp')
                 templateUrl: "/static/views/statistics.html",
                 authenticate: false
             })
-            .state("test", {
-                url: "/test",
-                templateUrl: "/static/views/test.html",
+            .state("myProfile", {
+                url: "/myProfile",
+                controller: "myProfileCtrl",
+                templateUrl: "/static/views/myProfile.html",
                 authenticate: false
             })
 
