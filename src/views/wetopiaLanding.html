@@ -5,7 +5,7 @@
             <img class="hamburguer-menu " src="/static/img/hamburguermenu-min.png " ng-click="movilMenu=true">
               <div class="menu">
               <a href="#who-we-are" offset="30" du-smooth-scroll du-scrollspy >Who are we?</a>
-              <a href="#how-it-works" offset="30" du-smooth-scroll du-scrollspy>How it works</a>
+              <a href="#infographic" offset="30" du-smooth-scroll du-scrollspy>How it works</a>
             <a href="#our-community" offset="30" du-smooth-scroll du-scrollspy>Our Community</a>
             <div class="simple-cont">
               <!-- <p class="login-btn" ng-click="login=true">Log In</p>
@@ -21,12 +21,12 @@
           </div>
         <div class="flex-cont" id="who-we-are" ng-style="h>700&&{'height':h+'px'}" >
             <div class="sub-cont " >
-                <h1 class="title">Discover the potential of your idea & develop it into a great startup.</h1>
-                <h2 class="sub-paragraph changeVisibility" ng-class="{'fadeIn fast':  visibility}" ng-style="visibility && {'visibility':'visible'}">It doesn’t matter if you’re an entrepreneur, a professional or a student. Wetopia is for everyone.</h2>
+                <h1 class="title">Entrepreneurship is a long difficult road.</h1>
+                <h2 class="sub-paragraph changeVisibility" ng-class="{'fadeIn fast':  visibility}" ng-style="visibility && {'visibility':'visible'}">Why walk this road alone when others are willing to help you?</h2>
               <!--  <a class="blue-button join-button join-btn-land "  href="" ng-click="join=true ">Join Now!</a>-->
 
                   <div class="form-input flex-cont email">
-                      <p class="sub-paragraph fadeIn fast">We're launching soon, be part of Wetopia!</p>
+                      <!-- <p class="sub-paragraph fadeIn fast">We're launching soon, be part of Wetopia!</p> -->
                       <input type="email" ng-style="errorHeader && {'color':'#F26649'}"  ng-model="guestEmail" name="request-email" placeholder="Email" required="true">
                       <p class="red-text error" ng-bind="mailRequestError" ng-show="errorHeader"></p>
                       <a class="blue-button join-button join-btn-land request-btn" href="" ng-click="submit(guestEmail, 'header')">Join now</a>
@@ -38,7 +38,7 @@
 
 <div class="section-cont">
   <div class="flex-cont" id="how-it-works">
-    <p class="sub-gray">HOW IT WORKS</p>
+    <p class="sub-gray">Discover the potential of your idea & develop it into a great startup.</p>
     <div class="flex-cont">
 
 
@@ -53,6 +53,7 @@
     </div>
   </div>
 <div class="flex-cont" id="infographic" >
+  <p class="sub-gray">HOW IT WORKS</p>
   <div class="simple-cont">
     <img class="desktop infographic animate-show ng-animate ng-hide-animate ng-hide-add"  ng-show="scrolled>500" src="/static/img/infographic-min.png">
       <img class="infographic movil" src="/static/img/fullB-min.png">
@@ -120,7 +121,7 @@
   <p class="center-paragraph">Join Wetopia and develop your idea into a great Startup.</p>
 <!--  <a class="blue-button join-button join-btn-land " href="" ng-click="join=true ">Join Now!</a>-->
 <div class="form-input flex-cont email" id="form-input-footer">
-    <p class="sub-paragraph fadeIn fast center-advice">We're launching soon, be part of Wetopia!</p>
+    <!-- <p class="sub-paragraph fadeIn fast center-advice">We're launching soon, be part of Wetopia!</p> -->
     <input type="email" ng-style="errorFooter && {'color':'#F26649'}"  ng-model="userEmail" name="request-email" placeholder="Email" required="true">
     <p class="red-text error" ng-bind="footerRequestError" ng-show="errorFooter"></p>
     <a class="blue-button join-button join-btn-land request-btn"  href="" ng-click="submit(userEmail, 'footer')">Join now</a>
