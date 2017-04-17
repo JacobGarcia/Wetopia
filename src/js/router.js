@@ -11,73 +11,73 @@ angular.module('musementApp')
                 url: "/login",
                 controller: 'loginCtrl',
                 templateUrl: "/static/views/login.html",
-                authenticate: false
+                authenticate: true
             })
             .state("home", {
                 url: "/home",
                 controller: "homeCtrl",
                 templateUrl: "/static/views/home.html",
-                authenticate: false
+                authenticate: true
             })
             .state("signup", {
                 url: "/signup",
                 templateUrl: "/static/views/signup.html",
                 controller: "signupCtrl",
-                authenticate: false //Doesn't requires authentication
+                authenticate: true //Doesn't requires authentication
             })
             .state("signup.first", {
                 url: "/first",
                 // controller: "signupCtrl",
                 templateUrl: "/static/views/signup-first.html",
-                authenticate: false
+                authenticate: true
             })
             .state("signup.second", {
                 url: "/second",
                 // controller: "signupCtrl",
                 templateUrl: "/static/views/signup-second.html",
-                authenticate: false
+                authenticate: true
             })
             .state("myIdea", {
                 url: "/myIdea",
                 controller: "myIdeaCtrl",
                 templateUrl: "/static/views/myIdea.html",
-                authenticate: false
+                authenticate: true
             })
             .state("idea", {
                 url: "/idea",
                 controller: "ideaCtrl",
                 templateUrl: "/static/views/idea.html",
-                authenticate: false
+                authenticate: true
             })
             .state("createIdea", {
                 url: "/createIdea",
                 controller: "createIdeaCtrl",
                 templateUrl: "/static/views/createIdea.html",
-                authenticate: false //mover
+                authenticate: true //mover
             })
             .state("createIdea.first", {
                 url: "/first",
                 // controller: "createIdeaCtrl",
                 templateUrl: "/static/views/createIdeaS1.html",
-                authenticate: false //mover
+                authenticate: true //mover
             })
             .state("createIdea.second", {
                 url: "/second",
                 // controller: "createIdeaCtrl",
                 templateUrl: "/static/views/createIdeaS2.html",
-                authenticate: false //mover
+                authenticate: true//mover
             })
             .state("myIdeaStatistics", {
                 url: "/myIdeaStatistics",
                 controller: "statisticsCtrl",
                 templateUrl: "/static/views/statistics.html",
-                authenticate: false
+                authenticate: true
             })
             .state("myProfile", {
                 url: "/myProfile",
                 controller: "myProfileCtrl",
                 templateUrl: "/static/views/myProfile.html",
-                authenticate: false
+                authenticate: true
             })
 
 
