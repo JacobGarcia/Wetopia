@@ -95,10 +95,8 @@ $scope.visibility=true;
             $scope.errorHeader=true;
               $scope.mailRequestError="Email already registered.  ";
           }
-            analytics.track('Invitation:', {
-            location: 'header',
-            status: 'already-registered',
-            type: 'button'
+            analytics.track('Invitation:failed', {
+            location: 'header'
           });
 
           break;
