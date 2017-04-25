@@ -13,7 +13,7 @@ var userSchema = new mongoose.Schema({
     proDate: Date,
     image: {
       type: String,
-      required: true
+      required: false
     },
     bio: String,
     location: {
