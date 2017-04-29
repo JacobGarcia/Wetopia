@@ -83,10 +83,8 @@
     </div>
   </div>
 
-  <div class="section-cont">
   <div class="flex-cont" id="the-community" ng-style="visibility && {'visibility':'visible'}">
-    <div class="flex-cont experts"  ng-class="{ 'fadeIn fast' : fadeInExpert, 'fadeOut fast' : fadeOutExpert }">
-    <div class="flex-cont row experts-cont">
+    <div class="flex-cont row experts-cont" ng-class="{ 'fadeIn fast' : fadeInExpert, 'fadeOut fast' : fadeOutExpert }">
       <img class="exp-photo" ng-src="{{expertsInfo[experts].photo}}">
       <div class="simple-cont">
       <p class="quote" ng-bind="expertsInfo[experts].quote"></p>
@@ -95,9 +93,6 @@
         </div>
         <img class="exp-logo" ng-src="{{expertsInfo[experts].logo}}">
     </div>
-    </div>
-  </div>
-
   </div>
 
   <div class="flex-cont" id="features">
@@ -373,6 +368,7 @@
               <p class="close-x" ng-click="movilMenu=false">x</p>
               <p class="sub-white" ng-click="movilMenu=false" href="#why-a-startup" offset="30" du-smooth-scroll du-scrollspy >WHY A STARTUP?</p>
               <p class="sub-white" ng-click="movilMenu=false"  href="#how-it-works" offset="30" du-smooth-scroll du-scrollspy>HOW IT WORKS</p>
+              <p class="sub-white" ng-click="movilMenu=false" href="#features" offset="30" du-smooth-scroll du-scrollspy >FEATURES</p>
               <p class="sub-white" ng-click="movilMenu=false" href="#our-team" offset="30" du-smooth-scroll du-scrollspy >OUR TEAM</p>
       </div>
   </body>
