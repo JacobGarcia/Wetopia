@@ -11,61 +11,61 @@ angular.module('musementApp')
                 url: "/login",
                 controller: 'loginCtrl',
                 templateUrl: "/static/views/login.html",
-                authenticate: true
+                authenticate: false
             })
             .state("home", {
                 url: "/home",
                 controller: "homeCtrl",
                 templateUrl: "/static/views/home.html",
-                authenticate: true
+                authenticate: false
             })
             .state("signup", {
                 url: "/signup",
                 templateUrl: "/static/views/signup.html",
                 controller: "signupCtrl",
-                authenticate: true //Doesn't requires authentication
+                authenticate: false //Doesn't requires authentication
             })
             .state("signup.first", {
                 url: "/first",
                 // controller: "signupCtrl",
                 templateUrl: "/static/views/signup-first.html",
-                authenticate: true
+                authenticate: false
             })
             .state("signup.second", {
                 url: "/second",
                 // controller: "signupCtrl",
                 templateUrl: "/static/views/signup-second.html",
-                authenticate: true
+                authenticate: false
             })
             .state("myIdea", {
                 url: "/myIdea",
                 controller: "myIdeaCtrl",
                 templateUrl: "/static/views/myIdea.html",
-                authenticate: true
+                authenticate: false
             })
             .state("idea", {
                 url: "/idea",
                 controller: "ideaCtrl",
                 templateUrl: "/static/views/idea.html",
-                authenticate: true
+                authenticate: false
             })
             .state("createIdea", {
                 url: "/createIdea",
                 controller: "createIdeaCtrl",
                 templateUrl: "/static/views/createIdea.html",
-                authenticate: true //mover
+                authenticate: false //mover
             })
             .state("createIdea.first", {
                 url: "/first",
                 // controller: "createIdeaCtrl",
                 templateUrl: "/static/views/createIdeaS1.html",
-                authenticate: true //mover
+                authenticate: false //mover
             })
             .state("createIdea.second", {
                 url: "/second",
                 // controller: "createIdeaCtrl",
                 templateUrl: "/static/views/createIdeaS2.html",
-                authenticate: true//mover
+                authenticate: false, //mover
                 data: {
                     redirect: ['createIdeaDataService', function(createIdeaDataService) {
                         // just check that firstName is in, if not return the state where this is filled
@@ -79,13 +79,13 @@ angular.module('musementApp')
                 url: "/myIdeaStatistics",
                 controller: "statisticsCtrl",
                 templateUrl: "/static/views/statistics.html",
-                authenticate: true
+                authenticate: false
             })
             .state("myProfile", {
                 url: "/myProfile",
                 controller: "myProfileCtrl",
                 templateUrl: "/static/views/myProfile.html",
-                authenticate: true
+                authenticate: false
             })
             .state("profile", {
                 url: "/profile",
