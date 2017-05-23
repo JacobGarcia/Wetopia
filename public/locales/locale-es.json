@@ -50,7 +50,11 @@
 	"EARLY": "EARLY ADOPTER",
 	"COMMUNITY": "Ten una comunidad de soporte para el lanzamiento de tu startup",
 	"COMMUNITY2": "parte de ella. Gana dinero o acciones.",
+<<<<<<< HEAD
 	"TEAM": "Equipo",
+=======
+	"TEAM": "OUR TEAM",
+>>>>>>> 715811022b20a7e507555801e2c2e11f749ede52
 	"PEDRO": "Pedro Camarena",
 	"MANAGER": "Project Manager",
 	"LUIS": "Luis Mendoza",
