@@ -1,33 +1,36 @@
 angular.module('musementApp')
-    .filter('containsMember', function() {
-        return function(array, needle) {
-            for (var i = 0; i < array.length; i++) {
-                if (array[i]._id == needle)
-                    return true
-            }
-            return false
-        };
-    })
     .controller('createIdeaCtrl', function($scope, $rootScope, $stateParams, createIdeaDataService, localStorageService, $http, Upload, $state) {
 
         let user_id = localStorageService.get('user_id');
-
-        $scope.idea = {};
+        $scope.idea = createIdeaDataService.idea;
         $scope.mySwitch = false;
         $scope.inputTeamMembers = false;
         $scope.tags = [];
-        $scope.members = [];
-        $scope.categorySelected = "";
+        $scope.idea.members = [];
         $scope.showCategories = false;
         loadTags();
+        $scope.errorTitle = false;
+        $scope.errorTitleMessage = "";
+        $scope.errorCategory = false;
+        $scope.errorCategoryMessage = "";
+        $scope.errorDescription = false;
+        $scope.errorDescriptionMessage = "";
+        $scope.errorSolution = false;
+        $scope.errorSolutionMessage = "";
+        $scope.errorOtherCategory = false;
+        $scope.idea.categories = [];
+        $scope.categories = [];
+        $scope.categorySelected = {};
 
-        $scope.selectCategory = function(category){
-          $scope.categorySelected = category;
-          $scope.showCategories = false;
+
+        $scope.selectCategory = function(category) {
+            $scope.clearErrors();
+            $scope.categorySelected = category;
+            $scope.showCategories = false;
         }
 
-        $scope.changeShowCategories = function(){
-          $scope.showCategories = !$scope.showCategories;
+        $scope.changeShowCategories = function() {
+            $scope.showCategories = !$scope.showCategories;
         }
 
 
@@ -52,10 +55,12 @@ angular.module('musementApp')
             return $http.get(HOST + '/api/tags', {
                 cache: true
             }).then(function(response) {
-                var tags= response.data;
-                $scope.categories = [];
-                for(var i=0; i<tags.length; i++){
-                  $scope.categories[i] = tags[i].name;
+                var tags = response.data;
+                for (var i = 0; i < tags.length; i++) {
+                    $scope.categories[i] = {
+                      name : tags[i].name,
+                      id : tags[i]._id
+                    }
                 }
             })
         }
@@ -67,6 +72,43 @@ angular.module('musementApp')
                 $scope.upload(this.idea.banner)
             }
 
+        }
+
+        $scope.clearErrors = function() {
+            $scope.errorTitle = false;
+            $scope.errorTitleMessage = "";
+            $scope.errorCategory = false;
+            $scope.errorCategoryMessage = "";
+            $scope.errorDescription = false;
+            $scope.errorDescriptionMessage = "";
+            $scope.errorSolution = false;
+            $scope.errorOtherCategory = false;
+            $scope.errorSolutionMessage = "";
+        }
+
+
+
+        $scope.goNext = function() {
+            $scope.clearErrors();
+            if (!$scope.idea.name) {
+                $scope.errorTitleMessage = "Please enter a title for your idea. ";
+                $scope.errorTitle = true;
+            }
+            if (!$scope.idea.description) {
+                $scope.errorDescriptionMessage = "Please enter a description for your idea.";
+                $scope.errorDescription = true;
+            }
+            if (!$scope.categorySelected) {
+                $scope.errorCategoryMessage = "Please select a category for your idea. ";
+                $scope.errorCategory = true;
+            }
+            if ($scope.categorySelected == 'Others' && ($scope.otherCategory == "" || $scope.otherCategory == undefined)) {
+                $scope.errorCategoryMessage = "Please enter what's your project about.";
+                $scope.errorOtherCategory = true;
+            }
+            if ($scope.idea.name && $scope.idea.description && $scope.categorySelected && ($scope.categorySelected != 'Others' || $scope.otherCategory)) {
+                $state.go('createIdea.second');
+            }
         }
 
         $scope.upload = function(file) {
@@ -89,20 +131,25 @@ angular.module('musementApp')
 
         $scope.submitIdea = function(banner) {
             console.log("sumbitIdea Execute");
-            let ideaInfo = {};
-            ideaInfo.name = this.idea.name
-            ideaInfo.description = this.idea.description
-            ideaInfo.categories = this.idea.categories
-            ideaInfo.problem = this.idea.problem
-            ideaInfo.members = this.idea.members
-            ideaInfo.banner = banner
+            // if ($scope.categorySelected == 'Others') {
+            //     $scope.idea.categories = $scope.otherCategory;
+            // }
 
-            createIdeaDataService.setIdea(ideaInfo, user_id, function(res) {
+            // getCategoryId($scope.categorySelected);
+            // console.log("categories"+$scope.idea.categories);
+            $scope.idea.categories[0] = $scope.categorySelected.id;
+            $scope.idea.banner = banner;
+
+            createIdeaDataService.setIdea(user_id, function(res) {
                 if (res.status == 201) {
                     // $scope.this_user.ideas.push(res.data.idea)
-                    $state.go('showIdea')
+                    $state.go('idea');
+                }
+                else {
+                  console.log('falle xq fui infiel');
                 }
             });
+
         }
 
     })

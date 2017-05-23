@@ -7,34 +7,10 @@ angular.module('musementApp')
                 templateUrl: "/static/views/wetopiaLanding.html",
                 authenticate: false //Doesn't requires authentication
             })
-            .state("login", {
-                url: "/login",
-                controller: 'loginCtrl',
-                templateUrl: "/static/views/login.html",
-                authenticate: true
-            })
             .state("home", {
                 url: "/home",
                 controller: "homeCtrl",
                 templateUrl: "/static/views/home.html",
-                authenticate: true
-            })
-            .state("signup", {
-                url: "/signup",
-                templateUrl: "/static/views/signup.html",
-                controller: "signupCtrl",
-                authenticate: true //Doesn't requires authentication
-            })
-            .state("signup.first", {
-                url: "/first",
-                // controller: "signupCtrl",
-                templateUrl: "/static/views/signup-first.html",
-                authenticate: true
-            })
-            .state("signup.second", {
-                url: "/second",
-                // controller: "signupCtrl",
-                templateUrl: "/static/views/signup-second.html",
                 authenticate: true
             })
             .state("myIdea", {
@@ -53,25 +29,27 @@ angular.module('musementApp')
                 url: "/createIdea",
                 controller: "createIdeaCtrl",
                 templateUrl: "/static/views/createIdea.html",
-                authenticate: true //mover
+                authenticate: true
             })
             .state("createIdea.first", {
                 url: "/first",
                 // controller: "createIdeaCtrl",
                 templateUrl: "/static/views/createIdeaS1.html",
-                authenticate: true //mover
+                authenticate: true//mover
             })
             .state("createIdea.second", {
                 url: "/second",
                 // controller: "createIdeaCtrl",
                 templateUrl: "/static/views/createIdeaS2.html",
-                authenticate: true//mover
-            })
-            .state("myIdeaStatistics", {
-                url: "/myIdeaStatistics",
-                controller: "statisticsCtrl",
-                templateUrl: "/static/views/statistics.html",
-                authenticate: true
+                authenticate: true, //mover
+                data: {
+                    redirect: ['createIdeaDataService', function(createIdeaDataService) {
+                        // just check that firstName is in, if not return the state where this is filled
+                        if (!createIdeaDataService.idea.name) {
+                            return 'createIdea.first';
+                        }
+                    }]
+                }
             })
             .state("myProfile", {
                 url: "/myProfile",
@@ -83,13 +61,13 @@ angular.module('musementApp')
                 url: "/profile",
                 controller: "profileCtrl",
                 templateUrl: "/static/views/profile.html",
-                authenticate: false
+                authenticate: true
             })
             .state("test", {
                 url: "/test",
                 controller: "testCtrl",
                 templateUrl: "/static/views/test.html",
-                authenticate: false
+                authenticate: true
             })
 
 
@@ -127,11 +105,18 @@ angular.module('musementApp')
     })
 
 //Run service to check the token is valid
-.run(function($rootScope, $state, AuthService) {
+.run(function($rootScope, $state, AuthService, $injector) {
     $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams) {
         if (toState.authenticate && !AuthService.isAuthenticated()) { // User isn’t authenticated
             $state.transitionTo("landing"); //If it's not valid redirect to login
             event.preventDefault();
+        }
+        if (toState.data && toState.data.redirect) {
+            var redirectTo = $injector.invoke(toState.data.redirect);
+            if (redirectTo) {
+                $state.go(redirectTo);
+                event.preventDefault();
+            }
         }
     });
 });
