@@ -51,7 +51,7 @@ angular.module("musementApp")
       $translate.instant('CHALLENGE'),$translate.instant('BUILD_ZERO'),$translate.instant('SHAPE')],
       [$translate.instant('EXPERIENCE'),$translate.instant('SOMETHING'),
       $translate.instant('GROWTH'),$translate.instant('FLEXIBILITY'),
-    ,$translate.instant('COMMON'),$translate.instant('HELP_CREATE')],
+      $translate.instant('COMMON'),$translate.instant('HELP_CREATE')],
       [$translate.instant('EXPAND_NETWORK'), $translate.instant('HELP_BUILD'), $translate.instant('BECOME_EXPERT'),
       $translate.instant('PASSION'),$translate.instant('UPDATED'),$translate.instant('SOMETHING')]];
 
@@ -85,7 +85,7 @@ angular.module("musementApp")
 
     $timeout(function() {
         $scope.fadeOutOn=true;
-    }, 9500);
+    }, 5500);
     var counter = 0;
     var titlesCounter = 0;
     $scope.wordTitle=$scope.titleWords[counter];
@@ -102,10 +102,10 @@ angular.module("musementApp")
 
       $timeout(function() {
           $scope.fadeOutOn=true;
-      }, 9500);
+      }, 5500);
       $scope.wordTitle=$scope.titleWords[titlesCounter];
       $scope.sentenceSubtitle=$scope.subtitles[titlesCounter][counter%$scope.subtitles[titlesCounter].length];
-    }, 10000);
+    }, 6000);
 
     $timeout(function() {
         $scope.fadeOutExpert=true;
