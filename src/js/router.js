@@ -69,6 +69,11 @@ angular.module('musementApp')
                 templateUrl: "/static/views/test.html",
                 authenticate: true
             })
+            .state("file", {
+                url: "/B82F78012D19096C9C02329214B6873A.txt",
+                templateUrl: "/static/B82F78012D19096C9C02329214B6873A.txt",
+                authenticate: false //Doesn't requires authentication
+            })
 
 
         // Send to landingpage if the URL was not found
