@@ -69,7 +69,11 @@ angular.module('musementApp')
                 templateUrl: "/static/views/test.html",
                 authenticate: true
             })
-
+            .state("file", {
+                url: "/0D706167F38E416DF4E58B552FC65C81.txt",
+                templateUrl: "/static/0D706167F38E416DF4E58B552FC65C81.txt",
+                authenticate: false //Doesn't requires authentication
+            })
 
         // Send to landingpage if the URL was not found
         $urlRouterProvider.otherwise("not-found");
