@@ -29,4 +29,4 @@ app.use('/', function(req, res) {
     res.sendFile( __dirname + '/public/views/index.html') // Use res.sendfile, as it streams instead of reading the file into memory.
 });
 
-server.listen(8080);
+server.listen(process.env.PORT || 5000)
