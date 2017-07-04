@@ -1,8 +1,27 @@
-angular.module('musementApp')
+angular.module('wetopiaApp')
     .config(function($stateProvider, $urlRouterProvider, $locationProvider) {
-        $stateProvider
+      $stateProvider
             .state("landing", {
                 url: "/",
+                controller: "landingCtrl",
+                templateUrl: "/static/views/wetopiaLanding.html",
+                authenticate: false, //Doesn't requires authentication
+                onEnter: function(localStorageService, $state){
+                  let auth = true
+                  var token = localStorageService.get('token') //Get token
+                  if(token){
+                  //Check that the token is valid, time interval
+                  var params = self.parseJwt(token)
+                  if (!(Math.round(new Date().getTime() / 1000) <= params.exp)) auth = false
+                  if (token && auth) {
+                    $state.go('home')
+                    event.preventDefault()
+                  }
+                  }
+                }
+            })
+            .state("landingAction", {
+                url: "/sign/:actionParam",
                 controller: "landingCtrl",
                 templateUrl: "/static/views/wetopiaLanding.html",
                 authenticate: false //Doesn't requires authentication
@@ -14,13 +33,19 @@ angular.module('musementApp')
                 authenticate: true
             })
             .state("myIdea", {
-                url: "/myIdea",
+                url: "/idea/:idea_id/:pivotNumber",
+                params: {
+                  pivotNumber: 1+"",  // default value of x is 5
+                    },
                 controller: "myIdeaCtrl",
                 templateUrl: "/static/views/myIdea.html",
                 authenticate: true
             })
             .state("idea", {
-                url: "/idea",
+                url: "/idea/:idea_id/:pivotNumber",
+                params: {
+                  pivotNumber: 1+"",  // default value of x is 5
+                    },
                 controller: "ideaCtrl",
                 templateUrl: "/static/views/idea.html",
                 authenticate: true
@@ -35,7 +60,7 @@ angular.module('musementApp')
                 url: "/first",
                 // controller: "createIdeaCtrl",
                 templateUrl: "/static/views/createIdeaS1.html",
-                authenticate: true//mover
+                authenticate: true
             })
             .state("createIdea.second", {
                 url: "/second",
@@ -53,14 +78,45 @@ angular.module('musementApp')
             })
             .state("myProfile", {
                 url: "/myProfile",
-                controller: "myProfileCtrl",
-                templateUrl: "/static/views/myProfile.html",
-                authenticate: true
+                  authenticate: true,
+                  controller: "myProfileCtrl",
+                  templateUrl: "/static/views/myProfile.html"
+            })
+            .state("myProfileSection", {
+                url: "/myProfile/:section",
+                  authenticate: true,
+                  controller: "myProfileCtrl",
+                  templateUrl: "/static/views/myProfile.html"
+            })
+            .state("profileSection", {
+                url: "/profile/:username/:section",
+                  authenticate: true,
+                  controller: "profileCtrl",
+                  templateUrl: "/static/views/profile.html",
+                  onEnter: function(localStorageService,  $stateParams, $state){
+                  if(localStorageService.get('username')==$stateParams.username){
+                     $state.go('myProfileSection', {section: $stateParams.section});
+                     event.preventDefault();
+                   }
+                }
+                //CHEK THIS
             })
             .state("profile", {
-                url: "/profile",
+                url: "/profile/:username",
                 controller: "profileCtrl",
                 templateUrl: "/static/views/profile.html",
+                authenticate: true,
+               onEnter: function(localStorageService,  $stateParams, $state){
+               if(localStorageService.get('username')==$stateParams.username){
+                  $state.go('myProfile');
+                  event.preventDefault();
+                }
+             }
+            })
+            .state("goProfileSection", {
+                url: "/profile/:username/:section",
+                controller: "myIdeaCtrl",
+                templateUrl: "/static/views/myIdea.html",
                 authenticate: true
             })
             .state("test", {
@@ -70,13 +126,21 @@ angular.module('musementApp')
                 authenticate: true
             })
             .state("file", {
-                url: "/0D706167F38E416DF4E58B552FC65C81.txt",
-                templateUrl: "/static/0D706167F38E416DF4E58B552FC65C81.txt",
+                url: "/B82F78012D19096C9C02329214B6873A.txt",
+                controller: function($http){
+                    return $http.get(HOST + '/api/download-file', {
+                        cache: true
+                    }).then(function(response) {
+                        console.log(response);
+                    });
+                },
+                templateUrl: "/static/B82F78012D19096C9C02329214B6873A.txt",
                 authenticate: false //Doesn't requires authentication
             })
 
+
         // Send to landingpage if the URL was not found
-        $urlRouterProvider.otherwise("not-found");
+        $urlRouterProvider.otherwise('home');
 
         // delete the # in the url
         $locationProvider.html5Mode({
@@ -109,14 +173,22 @@ angular.module('musementApp')
     })
 
 //Run service to check the token is valid
-.run(function($rootScope, $state, AuthService, $injector) {
+.run(function($rootScope, $state, AuthService,  $window, $injector, $anchorScroll) {
     $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams) {
+       $window.scrollTo(0, 0);
         if (toState.authenticate && !AuthService.isAuthenticated()) { // User isn’t authenticated
             $state.transitionTo("landing"); //If it's not valid redirect to login
             event.preventDefault();
         }
         if (toState.data && toState.data.redirect) {
             var redirectTo = $injector.invoke(toState.data.redirect);
+            if (redirectTo) {
+                $state.go(redirectTo);
+                event.preventDefault();
+            }
+        }
+        if (toState.verify && toState.verify.redirect) {
+            var redirectTo = $injector.invoke(toState.verify.redirect);
             if (redirectTo) {
                 $state.go(redirectTo);
                 event.preventDefault();

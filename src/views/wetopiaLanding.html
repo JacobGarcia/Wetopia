@@ -1,7 +1,7 @@
-<body ng-app="musementApp" ui-view>
+<body ng-app="wetopiaApp" ui-view>
     <div ng-class="{'blur': join || login || request||movilMenu }" ng-mousemove="landingCtrl.onMove($event)">
         <nav class="transparent-nav fadeIn fast" ng-class="{ 'scroll-white' : (scrolled > 1) }">
-            <img class=" logo " src="/static/img/logo_t.svg ">
+              <a class=" logo "  href="/"><img class=" logo nav-general" src="/static/img/logo_t.svg "></a>
             <img class="hamburguer-menu " src="/static/img/hamburguermenu-min.png " ng-click="movilMenu=true">
               <div class="menu ">
               <a href="#why-a-startup" offset="30" du-smooth-scroll du-scrollspy >{{ 'WHY_STARTUP' | translate }}</a>
@@ -9,8 +9,8 @@
               <a href="#features" offset="30" du-smooth-scroll du-scrollspy>{{'FEATURES' | translate }}</a>
             <a href="#our-team" offset="30" du-smooth-scroll du-scrollspy>{{'OUR' | translate }}</a>
             <div class="simple-cont">
-            <p class="bluelink signup-nav button" ng-click="request=true">{{'JOIN' | translate }}</p>
-            <!--  <p class="login-btn" ng-click="login=true">{{'LOGIN' | translate }}</p>
+            <!--  <p class="bluelink signup-nav button" ng-click="request=true">Join</p>-->
+            <p class="login-btn" ng-click="login = true">{{'LOGIN' | translate }}</p>
               <p class="bluelink signup-nav" ng-click="join=true">{{'SIGNUP' | translate }}</p>
 
               <span class='scroll-debug'>{{scrolled}}</span>-->
@@ -35,10 +35,8 @@
                   <div class="form-input flex-cont email">
                     <p class="center-paragraph ">{{'REASONS' | translate }}</p>
                     <p class="simple-paragraph">{{'THING' | translate }}</p>
-                      <p class="sub-paragraph fadeIn fast">{{'SOON' | translate }}</p>
-                      <input type="email" ng-style="errorHeader && {'color':'#F26649'}" ng-click="clearRequest()"  ng-model="guestEmail" name="request-email" placeholder="Email" required="true">
-                      <p class="red-text error" ng-bind="mailRequestError" ng-show="errorHeader"></p>
-                      <a class="blue-button join-button join-btn-land request-btn" href="" ng-click="submit(guestEmail, 'header')">{{'EMAIL_JOIN' | translate }}</a>
+                      <!-- <p class="sub-paragraph fadeIn fast">{{'SOON' | translate }}</p> -->
+                      <a class="blue-button join-button join-btn-land request-btn border-complete" ng-click="join=true">{{'SIGNNOW' | translate }}!</a>
                   </div>
 
             </div>
@@ -166,59 +164,68 @@
 
     <div class="flex-cont" id="our-team" >
       <p class="sub-gray">{{'TEAM' | translate }}</p>
-      <div class="flex-cont row" id="all-team-container">
-      <div class="flex-cont team-side">
-        <div class="flex-cont row team-cont ">
-          <img src="/static/img/Geppe_IMG.png" alt="Pedro Camarena"
-          id='pedro' ng-click="changeGraph('Pedro')"
-          click-outside="changeGraph('All')" outside-if-not="luis mario constanza ele">
-          <div class="simple-cont">
-            <p class="simple-paragraph">{{'PEDRO' | translate }}</p>
-            <p class="small-italic">{{'MANAGER' | translate }}</p>
-          </div>
+      <div class="flex-cont" >
+        <div class="flex-cont">
+          <img id="team-graph" ng-src="{{graph}}" >
         </div>
-        <div class="flex-cont row team-cont ">
-          <img src="/static/img/Luis_IMG.png" alt="Luis Mendoza"
-          id='luis'  ng-click="changeGraph('Luis')"
-          click-outside="changeGraph('All')" outside-if-not="pedro mario constanza ele">
-          <div class="simple-cont">
-            <p class="simple-paragraph">{{'LUIS' | translate }}</p>
-            <p class="small-italic">{{'BRAND' | translate }}</p>
+        <div class="flex-cont row wrap">
+          <div class="flex-cont team-cont " ng-class="{'click': selectedMember == 'Pedro'}"
+          ng-mouseover="changeGraph('Pedro')" ng-mouseout="changeGraph('Pedro')">
+            <img src="/static/img/TEAM/team-pedro.png" alt="Pedro Camarena"
+            id='pedro' ng-click="changeGraph('Pedro')"
+            click-outside="changeGraph('All')" outside-if-not="luis mario constanza ilse">
+            <div class="simple-cont">
+              <p class="simple-paragraph">{{'PEDRO' | translate }}</p>
+              <p class="small-italic">{{'MANAGER' | translate }}</p>
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="flex-cont" id="team-center">
-        <img id="team-graph" ng-src="{{graph}}" alt="Wetopia team graph">
-        <div class="flex-cont row team-cont ">
-          <img src="/static/img/MARIO_IMG.png" alt="Mario García"
-          id="mario" ng-click="changeGraph('Mario')"
-         click-outside="changeGraph('All')" outside-if-not="luis pedro constanza ele">
-          <div class="simple-cont">
-            <p class="simple-paragraph">{{'MARIO' | translate }}</p>
-            <p class="small-italic">{{'BACK' | translate }}</p>
+
+          <div class="flex-cont team-cont " ng-class="{'click': selectedMember == 'Luis'}"
+          ng-mouseover="changeGraph('Luis')" ng-mouseout="changeGraph('Luis')">
+            <img src="/static/img/TEAM/team-luis.png" alt="Luis Mendoza"
+            id='luis'  ng-click="changeGraph('Luis')"
+            click-outside="changeGraph('All')" outside-if-not="pedro mario constanza ilse">
+            <div class="simple-cont">
+              <p class="simple-paragraph">{{'LUIS' | translate }}</p>
+              <p class="small-italic">{{'BRAND' | translate }}</p>
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="flex-cont team-side">
-        <div class="flex-cont row team-cont ">
-          <img src="/static/img/Conz_IMG.png" alt="Constanza Madrigal"
-          id="constanza" ng-click="changeGraph('Constanza')"
-         click-outside="changeGraph('All')" outside-if-not="luis mario pedro ele">
-          <div class="simple-cont">
-            <p class="simple-paragraph">{{'CONZ' | translate }}</p>
-            <p class="small-italic">{{'FRONT' | translate }}</p>
+
+          <div class="flex-cont team-cont " ng-class="{'click': selectedMember == 'Constanza'}"
+           ng-mouseover="changeGraph('Constanza')" ng-mouseout="changeGraph('Constanza')">
+            <img src="/static/img/TEAM/team-cons.png" alt="Constanza Madrigal"
+            id="constanza" ng-click="changeGraph('Constanza')"
+           click-outside="changeGraph('All')" outside-if-not="luis mario pedro ilse">
+            <div class="simple-cont">
+              <p class="simple-paragraph">{{'CONZ' | translate }}</p>
+              <p class="small-italic">{{'FRONT' | translate }}</p>
+            </div>
           </div>
-        </div>
-        <div class="flex-cont row team-cont ">
-          <img src="/static/img/ELE_IMG.png" alt="Eleonora Paredes"
-          id="ele" ng-click="changeGraph('Ele')"
-          click-outside="changeGraph('All')" outside-if-not="luis mario constanza pedro">
-          <div class="simple-cont">
-            <p class="simple-paragraph">{{'ELE' | translate }}</p>
-            <p class="small-italic">{{'DESIGN' | translate }}</p>
+
+          <div class="flex-cont team-cont " ng-class="{'click': selectedMember == 'Mario'}"
+          ng-mouseover="changeGraph('Mario')" ng-mouseout="changeGraph('Mario')">
+            <img src="/static/img/TEAM/team-mario.png" alt="Mario García"
+            id="mario" ng-click="changeGraph('Mario')"
+           click-outside="changeGraph('All')" outside-if-not="luis pedro constanza ilse">
+            <div class="simple-cont">
+              <p class="simple-paragraph">{{'MARIO' | translate }}</p>
+              <p class="small-italic">{{'BACK' | translate }}</p>
+            </div>
           </div>
+
+          <div class="flex-cont team-cont " ng-class="{'click': selectedMember == 'Ilse'}"
+          ng-mouseover="changeGraph('Ilse')" ng-mouseout="changeGraph('Ilse')">
+            <img src="/static/img/TEAM/team-ilse.png" alt="Ilse Mora"
+            id="ilse" ng-click="changeGraph('Ilse')"
+            click-outside="changeGraph('All')" outside-if-not="luis mario constanza pedro">
+            <div class="simple-cont">
+              <p class="simple-paragraph">{{'ILSE' | translate }}</p>
+              <p class="small-italic">{{'DESIGN' | translate }}</p>
+            </div>
+          </div>
+
         </div>
-      </div>
+
 
 
       </div>
@@ -228,25 +235,21 @@
 <div class="flex-cont" id="bottom-land-bg" >
   <p class="center-paragraph">{{'WAITING' | translate }}</p>
   <p class="simple-paragraph">{{'TODAY' | translate }}.</p>
-<!--  <a class="blue-button join-button join-btn-land " href="" ng-click="join=true ">Join Now!</a>-->
 <div class="form-input flex-cont email" id="form-input-footer">
-    <p class="sub-paragraph fadeIn fast center-advice">{{'LAUNCHING' | translate }}</p>
-    <input type="email" ng-style="errorFooter && {'color':'#F26649'}" ng-click="clearRequest()" ng-model="userEmail" name="request-email" placeholder="Email" required="true">
-    <p class="red-text error" ng-bind="mailRequestError" ng-show="errorFooter"></p>
-    <a class="blue-button join-button join-btn-land request-btn"  href="" ng-click="submit(userEmail, 'footer')">{{'JOIN_FOOTER' | translate }}</a>
+  <a class="blue-button join-button join-btn-land request-btn border-complete" ng-click="join=true">{{'SIGNNOW' | translate }}!</a>
 </div>
 </div>
 </div>
 </div>
 <div class="footer flex-cont">
-<!--
+
   <div class="left">
     <a  href="/home"  class="small">Home</a>
     <a href="/myProfile" class="small">My Profile</a>
     <a  href="/createIdea/first" class="small">Create Idea</a>
     <a href="/myIdea" class="small">My Idea</a>
+  </div>
 
-  </div>-->
 
   <div class="icons">
     <img alt="Wetopia" src="/static/img/wetopia_dark-min.png">
@@ -259,45 +262,51 @@
 
   </div>
 
-<!--
   <div class="right">
     <p class="medium-bold">Wetopia (c) 2017</p>
+    <a href="/blog" class="small">Blog</a>
+    <!--
     <p class="small">Terms & Conditions</p>
     <p class="small">Privacy Policy</p>
     <p class="small">Ethics Code</p>
+    -->
   </div>
--->
 </div>
 
       </div>
       <div class="flex-modal white " ng-show="join">
           <div class="centered-form modal-form" id="landing-cf"  click-outside="closeSignup()" outside-if-not="join-button, signup-nav, login-land">
             <div class="flex-cont">
-              <p class="close-x" ng-click="join=false">x</p>
-              <p class="sub-gray">{{'SIGNUP' | translate }}</p>
+              <p class="close-x" ng-click="join=false">&times</p>
+              <p class="sub-gray bottom bigger-font top">{{'SIGNUP' | translate }}</p>
               <div class="form-input">
                   <img  ng-src="{{nameError?'/static/img/Login_user_red.svg':'/static/img/Login_user.svg'}}">
                   <input type="text" name="signup-name" ng-click="clearErrors()"  ng-model="user.name" placeholder="Name" required/>
-                  <p class="red-text error" ng-bind="nameMessageError" ng-show="nameError"></p>
+                  <p class="red-text error less-15" ng-bind="nameMessageError" ng-show="nameError"></p>
               </div>
               <div class="form-input">
                   <img ng-src="{{lastnameError?'/static/img/Login_user_red.svg':'/static/img/Login_user.svg'}}">
                   <input type="text" name="signup-lastname" ng-click="clearErrors()" ng-model="user.lastname" placeholder="Last Name" required="true">
-                  <p class="red-text error" ng-bind="lastnameMessageError" ng-show="lastnameError"></p>
+                  <p class="red-text error less-15" ng-bind="lastnameMessageError" ng-show="lastnameError"></p>
+              </div>
+              <div class="form-input">
+                  <img ng-src="{{usernameError?'/static/img/username_signup_red.svg':'/static/img/username_signup.svg'}}">
+                  <input type="text" name="signup-username" ng-click="clearErrors()" ng-model="user.username" placeholder="Username" required="true">
+                  <p class="red-text error less-15" ng-bind="usernameMessageError" ng-show="usernameError"></p>
               </div>
               <form class="form-input" name="signupForm" >
                   <img ng-src="{{emailError?'/static/img/Login_mail_red.svg':'/static/img/Login_mail.svg'}}" >
                   <input type="email" ng-model="user.newEmail" ng-click="clearErrors()" ng-style="emailError && {'color':'#F26649'}" name="input" placeholder="Email" required="true">
-                  <p class="red-text error" ng-bind="emailMessageError" ng-show="emailError"></p>
+                  <p class="red-text error less-15" ng-bind="emailMessageError" ng-show="emailError"></p>
               </form>
               <div class="form-input">
                   <img ng-src="{{passwordError?'/static/img/Login_pass_red.svg':'/static/img/Login_pass.svg'}}" src="/static/img/Login_pass.svg">
                   <input type="password" ng-model="user.newPassword" ng-click="clearErrors()" ng-style="passwordError && {'color':'#F26649'}"  name="signup-password" placeholder="Password" required="true">
-                  <p class="red-text error" ng-bind="passwordMessageError" ng-show="passwordError"></p>
+                  <p class="red-text error less-15" ng-bind="passwordMessageError" ng-show="passwordError"></p>
               </div>
-              <input type="button" value="Join" class="form-button " name="join" ng-click="signUp(signupForm.input.$error.email)">
-              <p class="terms">{{'ACCEPTING' | translate }}<span class="bluelink">{{'TERMS' | translate }}
-              {{'PRIVACY_POLICY' | translate }}</span>{{'ALONG' | translate }}<span class="bluelink">{{'ETHICS' | translate }}</span></p>
+              <input type="button" value="Join" class="form-button color-button blue" name="join" ng-click="signUp(signupForm.input.$error.email)">
+              <!-- <p class="terms">{{'ACCEPTING' | translate }}<span class="bluelink">{{'TERMS' | translate }}
+              {{'PRIVACY_POLICY' | translate }}</span>{{'ALONG' | translate }}<span class="bluelink">{{'ETHICS' | translate }}</span></p> -->
               <p class="already">{{'ALREADY' | translate }}</p>
               <p class="bluelink already login-btn" ng-click="openLogin()">{{'SIGNIN' | translate }}</p>
             </div>
@@ -307,20 +316,20 @@
       <div class="flex-modal white " id="login-land"  ng-show="login">
           <div class="centered-form modal-form" click-outside="closeLogin()" outside-if-not="login-btn landing-cf">
             <div class="flex-cont">
-              <p class="close-x" ng-click="login=false">x</p>
-              <p class="sub-gray">{{'LOGIN' | translate }}</p>
+              <p class="close-x" ng-click="login=false">&times</p>
+              <p class="sub-gray bottom bigger-font top">{{'LOGIN' | translate }}</p>
               <form name="loginForm" class="form-input">
-                  <img ng-src="{{emailError?'/static/img/Login_mail_red.svg':'/static/img/Login_mail.svg'}}" >
-                  <input type="text" ng-click="clearErrors()" ng-click="clearErrors()"  ng-model="user.email" ng-style="emailError && {'color':'#F26649'}" name="login-email" placeholder="Email" required="true">
-                  <p class="red-text error" ng-bind="emailMessageError" ng-show="emailError"></p>
+                  <img ng-src="{{emailError?'/static/img/Login_user_red.svg':'/static/img/Login_user.svg'}}" >
+                  <input type="text" ng-click="clearErrors()" ng-click="clearErrors()"  ng-model="user.email" ng-style="emailError && {'color':'#F26649'}" name="input-login-mail" placeholder="Username or email" required="true">
+                  <p class="red-text error less" ng-bind="emailMessageError" ng-show="emailError"></p>
               </form>
               <div class="form-input">
                   <img ng-src="{{passwordError?'/static/img/Login_pass_red.svg':'/static/img/Login_pass.svg'}}" src="/static/img/Login_pass.svg">
                   <input type="password" ng-click="clearErrors()" ng-click="clearErrors()" ng-model="user.password" ng-style="passwordError && {'color':'#F26649'}"  name="login-password" placeholder="Password" required="true">
-                  <p class="red-text error" ng-bind="passwordMessageError" ng-show="passwordError"></p>
+                  <p class="red-text error less" ng-bind="passwordMessageError" ng-show="passwordError"></p>
               </div>
               <p class="terms right" ng-class="{'margin-top': passwordError}" >{{'FORGOT' | translate }}</p>
-              <input type="button" value="Join" class="form-button " name="login" ng-click="signIn(loginForm.input.$error.email)">
+              <input type="button" value="Join" class="form-button color-button blue" name="login" ng-click="signIn()">
               <p class="already">{{'DONT' | translate }}</p>
               <p class="bluelink already signup-nav" id="signup-nav" ng-click="openSignup()">{{'JOIN_NOW' | translate }}</p>
               </div>
@@ -330,7 +339,7 @@
       <div class="flex-modal white " id="request-land"  ng-show="request">
           <div class="centered-form modal-form" click-outside="request=false" outside-if-not="request-btn signup-nav">
             <div class="flex-cont">
-              <p class="close-x" ng-click="closeRequestModal()">x</p>
+              <p class="close-x" ng-click="closeRequestModal()">&times</p>
               <p class="sub-gray">{{'REQUEST' | translate }}</p>
               <div class="form-input">
                   <img ng-src="{{error?'/static/img/Login_mail_red.svg':'/static/img/Login_mail.svg'}}" src="/static/img/Login_mail.svg">
@@ -345,7 +354,7 @@
       <div class="flex-modal white alert-modal"  ng-show="thanks">
           <div class="centered-form modal-form" click-outside="thanks=false">
             <div class="flex-cont">
-              <p class="close-x" ng-click="thanks=false">x</p>
+              <p class="close-x" ng-click="thanks=false">&times</p>
               <p class="sub-gray">{{'THANKS' | translate }}</p>
               <img class="done-icon" src="/static/img/DONE_ICON.svg">
               <p class="medium">{{'PART' | translate }}</p>
@@ -366,7 +375,7 @@
 
       <div class="flex-modal" id="movil-land-menu"  ng-show="movilMenu" g>
         <img class=" logo " src="/static/img/logo_t.svg ">
-              <p class="close-x" ng-click="movilMenu=false">x</p>
+              <p class="close-x" ng-click="movilMenu=false">&times</p>
               <p class="sub-white" ng-click="movilMenu=false" href="#why-a-startup" offset="30" du-smooth-scroll du-scrollspy >{{'WHY_STARTUP' | translate }}</p>
               <p class="sub-white" ng-click="movilMenu=false"  href="#how-it-works" offset="30" du-smooth-scroll du-scrollspy>{{'HOW' | translate }}</p>
               <p class="sub-white" ng-click="movilMenu=false" href="#features" offset="30" du-smooth-scroll du-scrollspy >{{'FEATURES' | translate }}</p>

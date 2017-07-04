@@ -1,6 +1,6 @@
-angular.module("musementApp")
+angular.module("wetopiaApp")
 
-.controller("landingCtrl", function($scope, $document, $window, $state, $location, $timeout, $interval, invitationDataService, $translate, localStorageService, signupDataService, Upload, loginDataService, jwtHelper) {
+.controller("landingCtrl", function($scope, $document, $window, $state, $stateParams, $location, $timeout, $interval, invitationDataService, $translate, localStorageService, signupDataService, Upload, loginDataService, jwtHelper) {
     $scope.join = false;
     $scope.login = false;
     $scope.request = false;
@@ -24,24 +24,52 @@ angular.module("musementApp")
     $scope.nameError=false;
     $scope.lastnameMessageError="";
     $scope.lastnameError=false;
+    $scope.usernameMessageError="";
+    $scope.usernameError=false;
     $scope.user={};
+    var newUser = signupDataService.user;
     $scope.graphImg={
-      Mario : '/static/img/Mario.png',
-      Constanza : '/static/img/Conz.png',
-      Luis : '/static/img/Luis.png',
-      Ele : '/static/img/Ele.png',
-      Pedro : '/static/img/Pedro.png',
-      All: '/static/img/COMPLETA.png'
+      Mario : '/static/img/GRAPH/test-grafica_mario.png',
+      Constanza : '/static/img/GRAPH/test-grafica_cons.png',
+      Luis : '/static/img/GRAPH/test-grafica_luis.png',
+      Ilse : '/static/img/GRAPH/test-grafica_ilse.png',
+      Pedro : '/static/img/GRAPH/test-grafica_pedro.png',
+      All: '/static/img/GRAPH/test-grafica_todos.png'
     }
-    $scope.graph=$scope.graphImg['All'];
+    var actionParam = $stateParams.actionParam;
+
+    if(actionParam){
+      if(actionParam == 'in'){
+        $scope.login = true;
+      }
+      else if(actionParam == 'up'){
+        $scope.join = true;
+      }
+    }
+
+    function isLogged(){
+      if(localStorageService.get('username')){
+        $state.go('home');
+      }
+    }
+
+    $scope.selectedMember = 'All';
+    $scope.graph=$scope.graphImg[$scope.selectedMember];
 
     $scope.changeGraph = function(name){
-      if($scope.graph == $scope.graphImg[name]){
-        $scope.graph = $scope.graphImg['All'];
+      if($scope.selectedMember == name){
+        $scope.selectedMember = 'All';
       }
       else{
-        $scope.graph = $scope.graphImg[name];
+        $scope.selectedMember = name;
       }
+      $scope.graph=$scope.graphImg[$scope.selectedMember];
+      // if($scope.graph == $scope.graphImg[name]){
+      //   $scope.graph = $scope.graphImg['All'];
+      // }
+      // else{
+      //   $scope.graph = $scope.graphImg[name];
+      // }
     }
 
     //mails id
@@ -54,7 +82,7 @@ angular.module("musementApp")
       $translate.instant('CHALLENGE'),$translate.instant('BUILD_ZERO'),$translate.instant('SHAPE')],
       [$translate.instant('EXPERIENCE'),$translate.instant('SOMETHING'),
       $translate.instant('GROWTH'),$translate.instant('FLEXIBILITY'),
-      $translate.instant('COMMON'),$translate.instant('HELP_CREATE')],
+     $translate.instant('COMMON'),$translate.instant('HELP_CREATE')],
       [$translate.instant('EXPAND_NETWORK'), $translate.instant('HELP_BUILD'), $translate.instant('BECOME_EXPERT'),
       $translate.instant('PASSION'),$translate.instant('UPDATED'),$translate.instant('SOMETHING')]];
 
@@ -136,6 +164,8 @@ angular.module("musementApp")
       $scope.nameError=false;
       $scope.lastnameMessageError="";
       $scope.lastnameError=false;
+      $scope.usernameMessageError="";
+      $scope.usernameError=false;
     }
 
     $scope.closeLogin = function() {
@@ -152,7 +182,7 @@ angular.module("musementApp")
 
     $scope.openLogin= function() {
         $scope.closeSignup();
-        $scope.login = true;
+        $scope.isLogged();
     }
 
     $scope.closeSignup = function(){
@@ -201,9 +231,10 @@ $timeout(function(){
 
     $scope.submit = function(email, position) {
       $scope.clearRequest();
-    if (email != null) {
-        let invitationInfo = {};
-        invitationInfo.email = email;
+      if (email != null) {
+        let invitationInfo = {}
+        invitationInfo.email = email
+        invitationInfo.lang = $translate.proposedLanguage() == 'es' ? $scope.esMail : $scope.enMail
         JSON.stringify(invitationInfo);
         invitationDataService.invitation(invitationInfo, function(res) {
             if (res.status == 201){
@@ -274,6 +305,10 @@ $scope.signUp = function (invalidEmail) {
     $scope.emailMessageError="Please enter an email address. ";
     $scope.emailError = true;
   }
+  if(!$scope.user.username){
+    $scope.usernameMessageError="Please enter a username. ";
+    $scope.usernameError = true;
+  }
   if(invalidEmail){
     $scope.emailMessageError="Please enter a valid email address. ";
     $scope.emailError = true;
@@ -282,22 +317,25 @@ $scope.signUp = function (invalidEmail) {
     $scope.passwordMessageError="Please enter a password. ";
     $scope.passwordError=true;
   }
-  if($scope.user.name&&$scope.user.lastname&&$scope.user.newEmail&&$scope.user.newPassword){
+  if($scope.user.name&&$scope.user.lastname&&$scope.user.newEmail&&$scope.user.newPassword&&$scope.user.username){
   let userData = {}
   userData.name = $scope.user.name;
   userData.lastname = $scope.user.lastname;
   userData.email = $scope.user.newEmail.toLowerCase(); //IMPORTANT
+  userData.username =  $scope.user.username;
   userData.password = $scope.user.newPassword;
-  userData.username = $scope.user.newEmail;
 
   signupDataService.signup(userData, function (res) {
     if (res.status == 200) {
       //Set localStorage keys
       localStorageService.clearAll();
       localStorageService.set('token', res.data.token);
-      localStorageService.set('username', res.data.username)
+      localStorageService.set('username', res.data.username);
+      localStorageService.set('email', res.data.email);
       localStorageService.set('user_id', res.data._id);
+      localStorageService.set('name', res.data.name);
       $scope.join=false;
+      newUser.isNew = true;
       $state.go("home");
     }
   }, function(res) {
@@ -307,25 +345,33 @@ $scope.signUp = function (invalidEmail) {
       $scope.emailMessageError = "Email already registered."
       break;
 
+      case 401:
+      $scope.usernameError=true;
+      $scope.usernameMessageError = "Username already on use."
+      break;
+
+      case 402:
+      $scope.usernameError=true;
+      $scope.usernameMessageError = "Username already on use."
+      $scope.emailError=true;
+      $scope.emailMessageError = "Email already registered."
+      break;
+
       case 500:
       $scope.emailError=true;
       $scope.emailMessageError = "Please enter a valid email address."
       break;
     }
-
 }
 );
 }
 }
 
-$scope.signIn = function(invalidEmail) {
+$scope.signIn = function() {
+  var toLogUser= {}
   $scope.clearErrors();
   if(!$scope.user.email){
-    $scope.emailMessageError="Please enter your email. ";
-    $scope.emailError = true;
-  }
-  if(invalidEmail){
-    $scope.emailMessageError="Please enter a valid email address. ";
+    $scope.emailMessageError="Please enter your username or email. ";
     $scope.emailError = true;
   }
   if(!$scope.user.password){
@@ -333,24 +379,36 @@ $scope.signIn = function(invalidEmail) {
     $scope.passwordError=true;
   }
   if($scope.user.email&&$scope.user.password){
-  loginDataService.authenticate(this.user,
-  function(res) {
-    localStorageService.clearAll()
-    localStorageService.set('token', res.data.token) //Set the token for reuse in every request
-    localStorageService.set('user_id', res.data._id) //Set the user_id in the localStorageService
-    localStorageService.set('username', res.data.username) //Set the user_id in the localStorageService
-    $state.go('home')
+    toLogUser.password = $scope.user.password;
+    toLogUser.username = $scope.user.email;
+    toLogUser.email = $scope.user.email;
+    loginDataService.authenticate(toLogUser,
+    function(res) {
+    localStorageService.clearAll();
+    localStorageService.set('token', res.data.token);
+    localStorageService.set('username', res.data.username);
+    localStorageService.set('email', res.data.email);
+    localStorageService.set('user_id', res.data._id);
+    localStorageService.set('image', res.data.image);
+    localStorageService.set('name', res.data.name);
+    $state.go('home');
   },
   function(res) { //error callback
     switch (res.status) {
       case 401:
       $scope.emailError=true;
-      $scope.emailMessageError = "Wrong email or password."
-      $scope.passwordMessageError="Wrong email or password. ";
+      $scope.emailMessageError = "Wrong username, email or password."
+      $scope.passwordMessageError="Wrong username, email or password. ";
+      $scope.passwordError=true;
+      break;
+      case 500:
+      $scope.emailError=true;
+      $scope.emailMessageError = "Wrong username, email or password."
+      $scope.passwordMessageError="Wrong username, email or password. ";
       $scope.passwordError=true;
       break;
       case 400:
-      $scope.emailMessageError="Please enter your email. ";
+      $scope.emailMessageError="Please enter your username or email. ";
       $scope.emailError = true;
         break;
       default:
@@ -362,10 +420,6 @@ $scope.signIn = function(invalidEmail) {
 
 $scope.animateHowItWorks = function($element) {
 		$element.addClass('visible');
-	};
-
-
-
-
+};
 
 })

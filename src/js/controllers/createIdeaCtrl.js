@@ -1,13 +1,14 @@
-angular.module('musementApp')
-    .controller('createIdeaCtrl', function($scope, $rootScope, $stateParams, createIdeaDataService, localStorageService, $http, Upload, $state) {
+angular.module('wetopiaApp')
+    .controller('createIdeaCtrl', function($scope, $rootScope, $stateParams, $location, createIdeaDataService, localStorageService, $http, Upload, $state, $window) {
 
         let user_id = localStorageService.get('user_id');
         $scope.idea = createIdeaDataService.idea;
         $scope.mySwitch = false;
-        $scope.inputTeamMembers = false;
         $scope.tags = [];
+        $scope.inputTeamMembers = false;
         $scope.idea.members = [];
         $scope.showCategories = false;
+        $scope.categories= {};
         loadTags();
         $scope.errorTitle = false;
         $scope.errorTitleMessage = "";
@@ -18,9 +19,11 @@ angular.module('musementApp')
         $scope.errorSolution = false;
         $scope.errorSolutionMessage = "";
         $scope.errorOtherCategory = false;
-        $scope.idea.categories = [];
-        $scope.categories = [];
         $scope.categorySelected = {};
+
+        if($location.path()=='/createIdea'){
+          $location.path('/createIdea/first')
+        }
 
 
         $scope.selectCategory = function(category) {
@@ -31,11 +34,6 @@ angular.module('musementApp')
 
         $scope.changeShowCategories = function() {
             $scope.showCategories = !$scope.showCategories;
-        }
-
-
-        if ($scope.idea.banner == undefined) {
-            $scope.idea.banner = "/static/img/Image_default.svg";
         }
 
         // Load members when creating a project
@@ -50,29 +48,25 @@ angular.module('musementApp')
             });
         }
 
+        $scope.goHome = function(){
+          $state.go('home');
+        }
+
         // Load categories when creating a moment
-        function loadTags($query) {
-            return $http.get(HOST + '/api/tags', {
-                cache: true
-            }).then(function(response) {
-                var tags = response.data;
+        function loadTags() {
+          return $http.get(HOST + '/api/tags', {
+              cache: true
+          }).then(function(response) {
+              var tags = response.data;
                 for (var i = 0; i < tags.length; i++) {
                     $scope.categories[i] = {
-                      name : tags[i].name,
+                      name : tags[i].description,
                       id : tags[i]._id
                     }
                 }
-            })
+          });
         }
 
-        $scope.createIdea = function() {
-            if (this.idea.banner == undefined) {
-                $scope.sumbitIdea("/static/img/cover_Login.svg") //Modificar
-            } else if (this.idea.banner.type) {
-                $scope.upload(this.idea.banner)
-            }
-
-        }
 
         $scope.clearErrors = function() {
             $scope.errorTitle = false;
@@ -98,7 +92,7 @@ angular.module('musementApp')
                 $scope.errorDescriptionMessage = "Please enter a description for your idea.";
                 $scope.errorDescription = true;
             }
-            if (!$scope.categorySelected) {
+            if (!$scope.categorySelected.name) {
                 $scope.errorCategoryMessage = "Please select a category for your idea. ";
                 $scope.errorCategory = true;
             }
@@ -111,44 +105,58 @@ angular.module('musementApp')
             }
         }
 
-        $scope.upload = function(file) {
-            if (!file) { //If user doesnt want to upload a photo, set the gravatar one
-                $scope.submitIdea(); //Send no image
-            } else {
-                Upload.upload({
-                        url: window.HOST + '/api/upload',
-                        data: {
-                            file: file
-                        }
-                    })
-                    .then(function(res) { //upload function returns a promise
-                        $scope.submitIdea('/static/uploads/' + res.data.file_name);
-                    }, function(errRes) { //catch error
-                        $window.alert('Error status: ' + errRes.status);
-                    });
-            }
+        $scope.createIdea = function ( ){
+          if ($scope.idea.banner){
+            Upload.upload({
+                    url: window.HOST + '/api/upload',
+                    data: {
+                        file: $scope.idea.banner
+                    }
+                })
+                .then(function(res) { //upload function returns a promise
+                    $scope.submitIdea('/static/uploads/' + res.data.file_name);
+                }, function(errRes) { //catch error
+                    $window.alert('Error status: ' + errRes.status);
+                });
+          }
+          else{
+            $scope.submitIdea();
+          }
+
         }
 
+
         $scope.submitIdea = function(banner) {
-            console.log("sumbitIdea Execute");
             // if ($scope.categorySelected == 'Others') {
             //     $scope.idea.categories = $scope.otherCategory;
             // }
 
             // getCategoryId($scope.categorySelected);
             // console.log("categories"+$scope.idea.categories);
-            $scope.idea.categories[0] = $scope.categorySelected.id;
+            $scope.idea.category = $scope.categorySelected.id;
             $scope.idea.banner = banner;
+            createIdeaDataService.setIdea(function(res) {
 
-            createIdeaDataService.setIdea(user_id, function(res) {
+              console.log(res.status);
                 if (res.status == 201) {
-                    // $scope.this_user.ideas.push(res.data.idea)
-                    $state.go('idea');
+                    $state.go('myIdea', {idea_id:res.data.idea_id});
                 }
-                else {
-                  console.log('falle xq fui infiel');
+              },function(res) {
+                switch (res.status) {
+                  case 403:
+                  window.alert('You have reached your limit of ideas.');
+                  break;
+
+                  case 300:
+                  window.alert('You already have an idea with this name.');
+                  break;
+
+                  case 500:
+                  window.alert('Something went wrong. Please try again.');
+                  break;
                 }
-            });
+            }
+          );
 
         }
 

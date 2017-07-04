@@ -243,6 +243,14 @@ input {
             padding: 7px 25px 9px;
             border: 1px solid $wetopia-blue;
             border-color: $wetopia-blue;
+
+            &.border-complete{
+              border-radius: 8px;
+              margin-top: 25px;
+              font-family: 'Museo';
+              padding: 12px 25px;
+              font-size: 22px;
+            }
         }
     }
 
@@ -462,6 +470,7 @@ a {
     #add-members {
         cursor: pointer;
         height: 31px;
+        width: 30px;
         margin-left: 2px !important;
     }
 }
@@ -528,6 +537,7 @@ a {
     .tab-paragraph {
         margin: -15px auto auto 55px !important;
         font-size: 16px !important;
+        width: 100%;
         @media screen and (max-width: 500px) {
             margin: auto !important;
         }
@@ -619,6 +629,16 @@ a {
         &.no-outline {
             outline: none;
             margin-top: 15px;
+        }
+
+        &.indent{
+          margin: 0px auto 0px 52px;
+          width: 90%;
+
+          @media screen and (max-width: 650px){
+            margin-left: auto;
+            width: 100%;
+          }
         }
     }
 
@@ -999,56 +1019,81 @@ nav {
     }
 }
 
-.wrapper {
-    display: inline-block;
-    vertical-align: middle;
-    padding: 10px;
-    margin: auto;
-    height: 30px;
-    margin-right: 10px;
-    width: 210px;
-    text-align: right;
-    position: relative;
-    display: flex;
-    @media screen and (max-width: 730px) {
-        order: 4;
-        flex: 1 100%;
-        text-align: center;
-        margin: auto;
-    }
-
-    &:hover {
-        input {
-            border: 1px solid $gray-lighter;
-        }
-    }
-
-    i {
-        &.fa-search {
-            color: $wetopia-blue;
-            cursor: pointer;
-            z-index: 4;
-            font-size: 20px;
-            margin: auto auto auto -25px;
-        }
-    }
-
-    input {
-        border-radius: 3px;
-        z-index: 3;
-        margin: auto 0 auto auto;
-        font-size: 15px;
-        padding: 0;
-        height: 28px;
-        background-color: white;
-        width: 200px;
-        text-indent: 10px;
-
-        &::-webkit-search-cancel-button {
-            -webkit-appearance: none;
-        }
-    }
-}
+// .wrapper {
+//     display: inline-block;
+//     vertical-align: middle;
+//     margin: auto;
+//     height: auto;
+//     margin-right: 20px;
+//     width: 210px;
+//     text-align: right;
+//     position: relative;
+//     display: flex;
+//
+//     @media screen and (max-width: 730px) {
+//         order: 4;
+//         flex: 1 100%;
+//         text-align: center;
+//         margin: auto;
+//     }
+//
+//     &:hover {
+//         input {
+//             border: 1px solid $wetopia-aqua;
+//         }
+//     }
+//
+//     i {
+//         &.fa-search {
+//             color: $wetopia-aqua;
+//             cursor: pointer;
+//             z-index: 4;
+//             font-size: 20px;
+//             font-weight: lighter;
+//             margin: auto auto auto -25px;
+//         }
+//     }
+//
+//     input {
+//         border-radius: 6px;
+//         z-index: 3;
+//         margin: auto 0 auto auto;
+//         font-size: 16px;
+//         padding: 6px;
+//         height: auto;
+//         background-color: white;
+//         width: 210px;
+//         text-indent: 2px;
+//         &::-webkit-input-placeholder {
+//             color: transparent;
+//             font-size: 13px;
+//             font-style: italic;
+//             font-family: 'Museo';
+//         }
+//
+//         &::-moz-placeholder {
+//             color: transparent;
+//             font-size: 13px;
+//             font-family: 'Museo';
+//             font-style: italic;
+//         }
+//
+//         &:focus, &:hover{
+//             border: 1px solid $wetopia-aqua;
+//             &::-webkit-input-placeholder {
+//                 color: $gray-lighter;
+//             }
+//
+//             &::-moz-placeholder {
+//                 color: $gray-lighter;
+//             }
+//         }
+//
+//         &::-webkit-search-cancel-button {
+//             -webkit-appearance: none;
+//         }
+//     }
+// }
 
 .scroll-list {
     overflow-y: scroll;
@@ -1145,7 +1190,6 @@ nav {
                 }
             }
 
-            &.act-pivot,
             &.prev-pivot {
                 &:after {
                     color: $text-gray;
@@ -1153,9 +1197,24 @@ nav {
             }
 
             &.prev-pivot {
+              &:after {
+                  content: "th pivot";
+              }
+              &.first{
                 &:after {
-                    content: "º pivot";
+                    content: "st pivot";
                 }
+              }
+              &.second{
+                &:after {
+                    content: "nd pivot";
+                }
+              }
+              &.third{
+                &:after {
+                    content: "rd pivot";
+                }
+              }
             }
 
             &.act-pivot {
@@ -1174,60 +1233,87 @@ nav {
                 }
             }
 
-            &.like-1,
-            &.like-2,
-            &.like-3,
-            &.like-4 {
+            &.prev-pivot {
+              &:after {
+                color: $text-gray;
+                  content: "th pivot";
+              }
+              &.first{
                 &:after {
-                    background: {
-                        repeat: no-repeat;
-                        size: cover;
-                        position: center;
-                    }
-                    height: 13px;
-                    display: inline-block;
-                    width: 11px;
-                    content: " ";
+                    content: "st pivot";
+                }
+              }
+              &.second{
+                &:after {
+                    content: "nd pivot";
+                }
+              }
+              &.third{
+                &:after {
+                    content: "rd pivot";
+                }
+              }
+            }
+
+            &.like1,
+            &.like2,
+            &.like3,
+            &.like4 {
+                &:after {
+                  width: auto;
+                    // background: {
+                    //     repeat: no-repeat;
+                    //     size: cover;
+                    //     position: center;
+                    // }
+                    // height: 13px;
+                    // display: inline-block;
+                    // width: 11px;
+                    // content: " ";
                 }
             }
 
-            &.like-4 {
+            &.like4 {
                 &:before {
-                    content: '"I love it and I want it know" ';
+                    content: '"I buy it!" ';
                 }
 
                 &:after {
-                    background-image: url("/static/img/Likes/noti_like 4.svg");
+                  content: "on ";
+                    // background-image: url("/static/img/Likes/noti_like 4.svg");
                 }
             }
 
-            &.like-3 {
+            &.like3 {
                 &:before {
-                    content: '"I like it but it\0027s not my thing" ';
+                    content: '"I love it!" ';
                 }
 
                 &:after {
-                    background-image: url("/static/img/Likes/noti_like 3.svg");
+                  content: "on ";
+                    // background-image: url("/static/img/Likes/noti_like 3.svg");
                 }
             }
 
-            &.like-2 {
+            &.like2 {
                 &:before {
-                    content: '"I like it but still lacks something." ';
+                    content: '"Not bad." ';
                 }
 
                 &:after {
-                    background-image: url("/static/img/Likes/noti_like 2.svg");
+                  content: "on ";
+                    // background-image: url("/static/img/Likes/noti_like 2.svg");
                 }
             }
 
-            &.like-1 {
+            &.like1 {
                 &:before {
                     content: '"I don\0027t like it." ';
                 }
 
                 &:after {
-                    background-image: url("/static/img/Likes/noti_like 1.svg");
+                  content: "on ";
+                    // background-image: url("/static/img/Likes/noti_like 1.svg");
                 }
             }
         }
@@ -1298,6 +1384,7 @@ nav {
     .sup-cont {
         border-bottom: 1px solid $pt-gray;
         margin-bottom: 10px;
+        overflow-wrap: break-word;
 
         .gray-dark {
             margin-bottom: 3px;
@@ -1320,6 +1407,7 @@ nav {
             width: 120px !important;
             padding: 5px 10px !important;
             top: 50%;
+            left: 2px;
             border-radius: 6px !important;
 
             &::after,
@@ -1329,7 +1417,7 @@ nav {
             }
         }
 
-        p {
+        p, .nav-txt {
             font-size: 14px;
             margin: 7px auto;
             cursor: pointer;
@@ -1346,6 +1434,10 @@ nav {
             &.small {
                 font-size: 12px;
                 margin-top: 0;
+            }
+
+            &.bottom{
+              margin-bottom: 10px !important;
             }
         }
 
@@ -1419,13 +1511,18 @@ nav {
 }
 
 .red-text {
-    color: $wetopia-red;
+    color: $wetopia-red !important;
 
     &.error {
         font-size: 11px !important;
         position: absolute;
         bottom: -25px;
         left: 33px;
+        width: auto;
+
+        &.bottom-0{
+          bottom:0px;
+        }
 
         &.more {
             bottom: -30px;
@@ -1433,6 +1530,27 @@ nav {
 
         &.less {
             bottom: -20px;
+        }
+
+        &.less-25{
+          bottom: -25px;
+        }
+
+        &.left-0{
+          left: 0px;
+        }
+
+        &.less-15 {
+          bottom: -15px;
+        }
+
+        &.left{
+          left: 50px;
+          &.textarea{
+            @media screen and (max-width: 650px){
+             left: 0;
+            }
+          }
         }
     }
 
@@ -1489,9 +1607,9 @@ nav {
 .idea-info,
 .max-cont {
     width: 100%;
-    background: $gray-bg;
+    background: white;
     height: auto;
-    text-align: center;
+    // text-align: center;
     padding: 120px 10px 80px;
     box-sizing: border-box;
     @media screen and (max-width: 730px) {
@@ -1588,6 +1706,12 @@ nav {
     text-align: center;
     margin: auto;
 
+    &.upper-margin{
+      @media screen and (max-width: 1020px){
+        margin-top: 50px;
+      }
+    }
+
     &.left-align {
         text-align: left;
 
@@ -1680,10 +1804,13 @@ nav {
         top: 0;
         bottom: 30px;
     }
+    word-break: break-word;
     @include font( 'Museo', 300);
 }
 
 .idea-title {
+  line-height: 40px;
+  margin-bottom: 20px;
     font: {
         size: 40px;
         family: 'Museo_700';
@@ -1693,7 +1820,7 @@ nav {
 .idea-header {
     text-align: left;
     height: auto;
-    margin: auto;
+    margin: auto auto auto 0;
 
     .pivote-t {
         margin: {
@@ -1718,8 +1845,7 @@ nav {
     }
 
     .idea-header-info {
-        margin-top: 20px;
-        margin-bottom: 10px;
+        margin-bottom: 20px;
 
         .polygon-clip-hexagon {
             height: 30px;
@@ -1765,7 +1891,7 @@ nav {
 
     .blue-text {
         display: inline-block;
-        margin-left: 5px;
+        margin-left: 0px;
         vertical-align: -webkit-baseline-middle;
     }
 
@@ -1796,10 +1922,6 @@ nav {
     }
 }
 
-.left {
-    float: left;
-    text-align: left;
-}
 
 .left,
 .right {
@@ -1861,7 +1983,8 @@ nav {
 }
 
 .comment {
-    max-width: 500px;
+  max-width: 500px;
+  width: 100%;
 
     p {
         clear: both;
@@ -1993,7 +2116,6 @@ nav {
 }
 
 #res-statistics {
-    margin-top: 15px;
     padding: 0;
 
     .form-input {
@@ -2154,6 +2276,7 @@ nav {
         @extend %white-tooltip;
         margin-top: -4px;
         left: 65%;
+        z-index: 1000;
 
         &::after,
         &::before {
@@ -2384,7 +2507,7 @@ nav {
 }
 
 .content {
-    background-color: whitesmoke;
+    background-color: white;
     margin-top: 0;
     padding: 100px 60px 30px;
     max-width: 1500px;
@@ -2441,13 +2564,11 @@ nav {
 }
 
 .cards-cont {
-    padding: 15px 0;
+    padding: 0;
     width: 100%;
-    clear: both;
-    margin-bottom: 30px;
+    margin-bottom: 50px;
     display: flex;
     justify-content: center;
-    text-align: center;
     flex-direction: row;
     flex-wrap: wrap;
 }
@@ -2457,7 +2578,7 @@ nav {
 }
 
 .card {
-    width: 210px;
+    width: 200px;
     margin: 20px 30px;
     display: inline-block;
     cursor: pointer;
@@ -2467,13 +2588,23 @@ nav {
     .user {
         height: 35px;
         display: flex;
-        justify-content: center;
-        text-align: center;
         flex-direction: row;
+        width: 100%;
+        margin: 0px auto;
+
+        p {
+            color: $gray-lighter;
+            font-family: 'Museo';
+            display: inline-block;
+            width: auto;
+            margin: auto auto auto 0px;
+            font-size: 14px;
+            line-height: 15px;
+        }
 
         .polygon-clip-hexagon {
-            height: 20px;
-            width: 16px;
+            height: 30px;
+            width: 28px;
             background-repeat: no-repeat;
             background-position: center;
             background-size: cover;
@@ -2481,11 +2612,6 @@ nav {
 
         .polygon-each-img-wrap {
             margin: auto 5px auto 0;
-        }
-
-        p {
-            font-size: 12px;
-            margin: 8px 0;
         }
 
         .right-img {
@@ -2503,11 +2629,10 @@ nav {
 }
 
 .card-img {
-    clear: both;
     width: 100%;
+    background-size: cover;
     box-sizing: border-box;
-    height: 160px;
-    @include backimg(ex2, jpg);
+    height: 140px;
     border: 1px solid $wetopia-blue;
     border-radius: 10px 10px 0 0;
 }
@@ -2521,22 +2646,45 @@ nav {
     margin-bottom: 5px;
     padding: 5px 13px;
     box-sizing: border-box;
-    display: flex;
-    justify-content: center;
-    text-align: center;
     flex-direction: column;
-    height: 160px;
+    height: 150px;
+    overflow: hidden;
+    position: relative;
+
+    .white-padding-bottom{
+      height: 20px;
+      top: 136px;
+      left: 0px;
+    }
 
     .dark-title {
-        margin: 10px auto 10px 0;
+        margin: 5px auto 0px 0;
+        font-size: 15px;
         text-align: left;
-        @include font( 'Museo', 900);
+        font-family: 'Museo_D';
+        font-weight: normal;
+        max-height: 38px;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .card-p {
         margin: 0 auto auto 0;
         text-align: left;
-        font-size: 12px;
+        font-size: 13px;
+        word-break: break-all;
+        text-overflow: ellipsis;
+    }
+
+    .ellipsis{
+      font-size: 13px;
+      background: white;
+      color: $gray-dark;
+      z-index: 1000;
+    }
+
+    .read-more{
+      font-size: 13px;
     }
 
     .left {
@@ -2553,18 +2701,18 @@ nav {
 
         p {
             color: $gray-lighter;
-            @include font( 'Museo', 300);
+            font-family: 'Museo';
             display: inline-block;
             width: auto;
-            margin: auto auto auto 3px;
-            font-size: 11px;
+            margin: auto auto auto 0px;
+            font-size: 14px;
         }
     }
 }
 
 .dark-title {
     font: {
-        size: 14px;
+        size: 18px;
         weight: bolder;
     }
     color: $gray-dark;
@@ -2572,7 +2720,7 @@ nav {
 
 .card-p {
     @include font( 'Museo', 300);
-    font-size: 13px;
+    font-size: 14px;
 }
 
 .upper-img {
@@ -2615,13 +2763,12 @@ nav {
 }
 
 .footer-nav {
-    margin-top: -8px;
-
-    a {
+    margin-top: -12px;
+    p {
         color: $gray-lighter;
         display: inline-block;
-        font-size: 11px;
-        margin: 0 2px;
+        font-size: 12px;
+        font-family: 'Museo';
     }
     text-align: center;
 }
@@ -2637,8 +2784,8 @@ nav {
 }
 
 .category {
-    width: 108px;
-    height: 150px;
+    width: 98px;
+    height: 130px;
     position: relative;
     cursor: pointer;
     margin: 15px 10px;
@@ -2986,10 +3133,6 @@ nav {
     position: absolute;
 }
 
-.sub-gray {
-    font-size: 28px;
-    text-align: center;
-}
 
 #notifications-icon {
     height: 30px;
@@ -2999,7 +3142,7 @@ nav {
 .transparent-nav {
     background: transparent;
     padding: 0 50px;
-    height: 80px;
+    height: 60px;
     max-width: 100%;
     position: fixed;
     display: -webkit-flex;
@@ -3018,15 +3161,14 @@ nav {
     }
 
     .right {
-        margin: auto 0;
+        margin: auto 0px auto auto;
         display: -webkit-flex;
         display: flex;
+        padding-left: 74px;
         flex-direction: row;
-        @media screen and (max-width: 730px) {
-            padding-left: 71px;
-        }
-        @media screen and (max-width: 500px) {
-            padding: 0;
+
+        @media screen and (max-width: 500px){
+          padding-left: 0;
         }
     }
 
@@ -3036,7 +3178,7 @@ nav {
         -webkit-clip-path: url("#polygon-clip-hexagon");
         clip-path: url("#polygon-clip-hexagon");
         height: 35px;
-        width: 33px;
+        width: 30px;
         display: inline-flex;
         margin: auto 5px;
         background: {
@@ -3056,6 +3198,7 @@ nav {
         @media screen and (max-width: 500px) {
             order: 3;
             width: 100%;
+            margin-top: 0px;
         }
 
         p {
@@ -3082,15 +3225,9 @@ nav {
         @media screen and (max-width: 745px) {
             padding-top: 7px;
         }
-        @media screen and (max-width: 730px) {
-            flex-wrap: wrap;
-            height: 110px;
-        }
-        @media screen and (max-width: 730px) {
-            height: 150px;
-        }
         @media screen and (max-width: 500px) {
-            height: 170px;
+            flex-wrap: wrap;
+            height: 120px;
             padding-top: 10px;
         }
     }
@@ -3110,20 +3247,6 @@ nav {
         height: 45px;
         display: inline-block;
         margin: auto auto auto 0;
-        @media screen and (max-width: 450px) {
-            margin-top: 15px;
-        }
-
-        &.nav-general {
-            padding-right: 145px;
-            @media screen and (max-width: 730px) {
-                padding: 0;
-                margin: auto 0;
-            }
-            @media screen and (max-width: 500px) {
-                margin-right: auto;
-            }
-        }
     }
 }
 
@@ -3339,6 +3462,28 @@ nav {
             margin-bottom: 20px;
         }
 
+        &.margin-bottom{
+          border-bottom: 1px solid $pt-gray;
+          padding-bottom: 15px;
+          margin: auto;
+          margin-bottom: 30px;
+          width: 95%;
+
+          .sub-gray{
+            margin-bottom: 0px;
+          }
+        }
+
+        &.for-scroll{
+          padding-top: 80px;
+          margin: 0 auto;
+          max-width: 800px;
+        }
+
+        &.bottom{
+          margin-bottom: 40px;
+        }
+
         &.max-width {
             max-width: 700px;
             margin: auto;
@@ -3349,8 +3494,13 @@ nav {
 
         .sub-gray {
             font-size: 25px;
-            line-height: 30px;
+            line-height: 25px;
+            margin-bottom: 30px;
             padding: 0 20px;
+
+            &.not-bottom{
+              margin-bottom: 10px;
+            }
 
             &:hover {
                 &:not(.not-hov) {
@@ -3518,10 +3668,7 @@ nav {
     }
 
     .sub-gray {
-        margin: 0 auto 50px;
-        @media screen and (max-width: 500px) {
-            margin-bottom: 0;
-        }
+        margin: 0px auto;
     }
 
     &.ng-show {
@@ -3558,12 +3705,17 @@ nav {
 
     p {
         margin: 8px 0;
-        line-height: 25px;
+
 
         &.no-margin {
             margin: 0;
             line-height: 20px;
             font-size: 16px;
+        }
+
+        &.centered{
+          margin: 2px auto;
+          text-align: center;
         }
     }
 
@@ -3685,7 +3837,6 @@ nav {
     margin: 10px 0;
     /*If it is a btn
     cursor: pointer;
-
     &:active {
         transform: scale(0.95);
     }*/
@@ -3822,6 +3973,19 @@ nav {
     }
 }
 
+.edit-icon{
+  position: absolute;
+  top: 25px;
+  right: 15px;
+  z-index: 1000;
+  height: 16px;
+  cursor: pointer;
+
+  &.top{
+    top: 0px;
+  }
+}
+
 .close-x {
     color: $pt-gray;
     position: absolute;
@@ -3839,6 +4003,10 @@ nav {
     &.down {
         top: 25px;
     }
+
+    &.dark{
+      color: $gray-lighter;
+    }
 }
 
 .modal-form {
@@ -3851,8 +4019,14 @@ nav {
         width: auto;
         padding: 25px 40px;
 
+        &.width-500{
+          width: 100%;
+          max-width: 500px;
+        }
+
         .normal-paragraph {
             margin: 0 15px;
+            width: 100%;
         }
         @media screen and (max-width: 500px) {
             padding: 25px 20px;
@@ -3901,7 +4075,7 @@ nav {
         }
 
         .form-description {
-            max-width: 450px;
+            width: 450px;
             min-width: 200px;
             padding: 0 20px;
             margin: auto;
@@ -3913,6 +4087,17 @@ nav {
         textarea {
             font-size: 14px;
             padding-top: 10px;
+            outline: none;
+
+            &::-webkit-input-placeholder {
+                color: $gray-lighter;
+                font-size: 14px;
+            }
+
+            &::-moz-placeholder {
+                color: $gray-lighter;
+                font-size: 14px;
+            }
         }
 
         .textarea {
@@ -3935,14 +4120,6 @@ nav {
 
     .flex-cont {
         padding: 25px 35px;
-
-        .sub-gray {
-            color: $gray-dark;
-            letter-spacing: 1px;
-            font-weight: bold;
-            margin-bottom: 30px;
-            margin-top: 10px;
-        }
 
         input {
             &:not(.selector) {
@@ -4010,9 +4187,9 @@ nav {
         }
 
         &.bluelink {
-            margin-top: -7px;
             font-weight: bold;
             cursor: pointer;
+            margin-top: 2px;
         }
     }
 
@@ -4288,7 +4465,7 @@ bluelink {
     width: auto;
 
     img {
-        margin: 10px auto 20px;
+        margin: 10px auto;
         @media screen and (max-width: 600px) {
             height: 16px;
         }
@@ -4336,6 +4513,11 @@ bluelink {
     width: auto;
     text-align: center;
     color: $text-gray;
+
+    &.lighter{
+      color: $gray-lighter;
+      font-family: 'Museo';
+    }
 }
 
 .center-paragraph {
@@ -4522,6 +4704,11 @@ bluelink {
     height: auto;
     width: auto;
     display: inline-block;
+
+    &.width-100{
+      width: 100%;
+      position: relative;
+    }
 
     &.relative {
         position: relative;
@@ -4802,6 +4989,10 @@ bluelink {
     -moz-appearance: none;
     margin-top: 0;
 
+    .username-name-tag{
+      padding: 0px;
+    }
+
     input {
         height: 24px;
         border-radius: 2px;
@@ -4812,17 +5003,19 @@ bluelink {
         left: 0;
         font-size: 13px;
         color: $gray-dark;
+        padding: 0;
         @include font("Museo", 300);
     }
 
     .user-tag {
         color: $gray-lighter;
         @include font("Museo", 300);
-        line-height: 20px;
+        line-height: 14px;
+        font-size: 13px;
     }
 
     .name-tag {
-        font-size: 15px;
+        font-size: 14px;
         color: $gray-dark;
         margin-right: 3px;
         @include font("Museo", 300);
@@ -4872,8 +5065,6 @@ bluelink {
     }
 
     .user-team-img {
-        height: 30px;
-        width: 30px;
         display: inline-flex;
         margin: auto 2px auto 0;
 
@@ -4882,8 +5073,8 @@ bluelink {
             clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
             -webkit-clip-path: url("#polygon-clip-hexagon");
             clip-path: url("#polygon-clip-hexagon");
-            height: 30px;
-            width: 30px;
+            height: 36px;
+            width: 32px;
             background: {
                 size: cover;
                 position: center;
@@ -4900,6 +5091,15 @@ bluelink {
         height: 30px !important;
         margin: auto 0 auto auto;
     }
+}
+
+.username-name-tag{
+  .name-tag{
+    margin: auto auto auto 0px;
+  }
+  .user-tag{
+    margin: auto auto auto 0px;
+  }
 }
 
 .autocomplete-template {
@@ -5039,7 +5239,7 @@ bluelink {
         }
 
         p {
-            font-size: 13px;
+            font-size: 14px;
             color: $gray-dark;
             line-height: 18px;
             padding: 0;
@@ -5059,7 +5259,8 @@ bluelink {
             padding: 5px 20px;
             margin-left: 12px;
             border-radius: 2px;
-            margin-top: -16px;
+            outline: none;
+            margin-top: -13px;
 
             &::-webkit-input-placeholder {
                 color: $gray-lighter;
@@ -5082,6 +5283,10 @@ bluelink {
     font-size: 20px;
     font-family: 'Museo';
 
+    &.bolder{
+      font-weight: bold;
+    }
+
     &.dark {
         font-family: 'Museo_D';
     }
@@ -5092,11 +5297,11 @@ bluelink {
     max-width: 500px;
 
     .polygon-clip-hexagon {
-        height: 30px;
-        width: 27px;
+        height: 35px;
+        width: 30px;
         background-size: cover;
         background-repeat: no-repeat;
-        margin: auto 5px auto 0;
+        margin: auto 8px auto 0;
     }
 
     .star-img {
@@ -5108,7 +5313,8 @@ bluelink {
 
     p {
         font-family: 'Museo';
-        font-size: 17px;
+        font-size: 18px;
+        line-height: 18px;
         margin: auto 5px auto 0;
 
         &.username {
@@ -5129,19 +5335,28 @@ bluelink {
 .comments {
     margin: 15px auto auto 0;
     max-width: 500px;
+
+    .tab-paragraph{
+      margin: 0px auto auto 38px;
+      font-size: 16px;
+      line-height: 16px;
+    }
+    font-family: 'Museo';
 }
 
 .comment {
-    margin: 5px auto;
+    margin: 0px auto 20px auto;
 }
 
 .tab-paragraph {
     margin: 0 auto auto 40px;
     font-size: 16px;
+    word-break: break-word;
     @media screen and (max-width: 600px) {
         margin: {
             left: 0;
         }
+        max-width: 410px;
     }
 }
 
@@ -5156,12 +5371,32 @@ bluelink {
     padding: 8px 10px;
     cursor: pointer;
 
+    &.larger{
+      padding: 8px 30px;
+    }
+
+    &.stylized{
+      font-size: 16px;
+      font-family: 'Museo';
+      font-weight: bold;
+      border-radius: 7px;
+    }
+
+
     &.right {
         margin: auto 0 auto auto;
     }
 
     &.left {
         margin: auto auto auto 0;
+
+        &.indent{
+          padding: 8px 0px;
+
+          @media screen and (min-width: 650px){
+            margin-left: 52px;
+          }
+    }
     }
 
     &.gray-dark {
@@ -5228,7 +5463,9 @@ bluelink {
     &.complete-form {
         width: 110px;
         font-size: 18px;
-        padding: 5px;
+        padding: 8px 0px;
+        font-family: 'Museo';
+        font-weight: bold;
         border-radius: 6px;
     }
 
@@ -5273,7 +5510,7 @@ bluelink {
 .go-back-btn {
     position: absolute;
     left: 20px;
-    top: 21px;
+    top: 80px;
     height: 30px;
     width: 100px;
     cursor: pointer;
@@ -5296,7 +5533,9 @@ bluelink {
 }
 
 #location-img {
-    margin-right: 5px;
+  margin-left: 8px;
+  vertical-align: -webkit-baseline-middle;
+
 }
 
 .send-feedback-btn {
@@ -5317,8 +5556,62 @@ bluelink {
         color: $gray-lighter;
     }
 
+    &.lighter-font{
+      font-family: 'Museo';
+    }
+
+    &.less-top{
+      margin-top: -5px !important;
+    }
+
     &.pointer {
         cursor: pointer;
+    }
+}
+
+
+.sub-gray {
+  font-size: 28px;
+  text-align: center;
+    color: $gray-dark;
+    letter-spacing: 1px;
+    margin-bottom: 30px;
+    margin-top: 10px;
+
+
+    &.light{
+      color: $gray-lighter;
+      font-weight: bold;
+      font-family: 'Museo';
+    }
+
+    &.bigger{
+      font-size: 30px !important;
+    }
+
+    &.medium-margin{
+      margin: 20px auto;
+
+      &.no-bottom{
+        margin-bottom: 0px;
+      }
+    }
+
+    &.bottom{
+      margin-bottom: 30px;
+    }
+
+    &.top{
+      margin-top: 10px;
+    }
+
+    &.bigger-font{
+      font-size: 30px;
+      font-family: 'Museo_700';
+    }
+
+    &.smaller-font{
+      font-size: 22px;
     }
 }
 
@@ -5332,19 +5625,53 @@ bluelink {
     height: 80px;
 }
 
+.upper-container{
+
+  &.margin-top{
+    margin: 0px auto;
+    width: 95%;
+  }
+
+  .right{
+    margin: auto 0px auto auto;
+  }
+}
+
 .title-dark {
     color: $gray-medium;
     font-family: 'Museo_700';
     font-size: 30px;
     width: auto;
+    line-height: 30px !important;
+
+    &.disable{
+      color: $disable-gray;
+      text-align: center;
+    }
+
+    &.smaller{
+      font-size: 25px;
+      font-family: 'Museo_D';
+    }
 
     &.left {
         margin: auto auto auto 0;
     }
 
+    &.bigger{
+      font-size: 40px;
+      height: 40px !important;
+      width: 100%;
+    }
+
     &.subtitle {
         font-size: 20px;
     }
+}
+
+.left-img{
+  margin: auto 5px auto 0;
+  height: 17px;
 }
 
 .medium-gray {
@@ -5353,10 +5680,29 @@ bluelink {
     color: $gray-lighter;
     width: auto;
     margin: auto;
+    display: inline-block;
+
+    &.no-margins{
+      margin: 0 auto;
+    }
 
     &.left {
         margin: auto auto auto 0;
     }
+}
+
+.small-blue{
+  font-size: 16px;
+  font-family: 'Museo_D';
+  margin-left: 5px;
+  color: $wetopia-blue;
+  width: 100px !important;
+  text-indent: 3px;
+
+  &[name="edit-idea-location-input"]{
+    vertical-align: baseline;
+    vertical-align: -webkit-baseline-middle;
+  }
 }
 
 .profile-img {
@@ -5387,20 +5733,24 @@ bluelink {
     width: auto;
     padding-right: 35px;
 
+    .padding{
+      padding: 2px 0;
+    }
+
     .subtitle {
         margin-bottom: 5px;
     }
 
-    img {
-        height: 15px;
-        margin-right: 5px;
-    }
 }
 
 #profile-edit-info {
     margin: 0 auto auto 10px;
     height: auto;
     width: auto;
+
+    input{
+      height: 20px;
+    }
 
     .subtitle {
         margin-bottom: 5px;
@@ -5463,6 +5813,10 @@ bluelink {
     display: none;
 }
 
+#idea-input-banner{
+  display: none;
+}
+
 .simple-input {
     width: 200px;
     border-radius: 1px !important;
@@ -5479,6 +5833,10 @@ bluelink {
 
     &[type=date] {
         text-indent: 3px;
+    }
+
+    &.bigger-title{
+      height: 30px;
     }
 
     &.title-dark {
@@ -5848,7 +6206,7 @@ video#bgvid {
     margin: 0 auto;
 
     .sub-gray {
-        margin-bottom: 100px;
+        margin-bottom: 50px;
     }
 }
 
@@ -5857,63 +6215,55 @@ video#bgvid {
 }
 
 .team-cont {
-    margin-left: 0;
-    height: auto;
-    padding: 0 0 20px;
-    width: auto;
+    margin: auto 10px;
+    height: 160px;
+    width: 160px;
+    transition: all linear 0.5s;
+
+    &.click, &:hover{
+      img{
+        width: 100px;
+        transition: all linear 0.5s;
+      }
+
+      .simple-paragraph{
+        display: block;
+        -webkit-animation: fadeIn 0.5s linear 0s;
+        -moz-animation: fadeIn 0.5s linear 0s;
+        -o-animation: fadeIn 0.5s linear 0s;
+        animation: fadeIn 0.5s linear 0s;
+      }
+    }
 
     .simple-cont {
         text-align: left;
-        margin: auto auto auto 15px;
+        margin: 0px auto auto auto;
         width: auto;
-        height: 60px;
     }
 
     img {
         width: 80px;
-        margin: auto 0 auto auto;
+        margin: auto auto 0px auto;
         cursor: pointer;
-        @media screen and (max-width: 800px) {
-            margin-left: 200px;
-        }
-        @media screen and (max-width: 650px) {
-            margin-left: 180px;
-        }
-        @media screen and (max-width: 500px) {
-            margin-left: 150px;
-        }
-        @media screen and (max-width: 450px) {
-            margin-left: 130px;
-        }
-        @media screen and (max-width: 400px) {
-            margin-left: 100px;
-        }
-        @media screen and (max-width: 350px) {
-            margin-left: 70px;
-        }
+        transition: all linear 0.5s;
     }
 
     .simple-paragraph {
         line-height: 17px;
-        margin-bottom: 0;
+        margin-bottom: 5px;
         text-align: left;
+        display: none;
+        -webkit-animation: fadeOut 0.3s linear 0s;
+        -moz-animation: fadeOut 0.3s linear 0s;
+        -o-animation: fadeOut 0.3s linear 0s;
+        animation: fadeOut 0.3s linear 0s;
     }
 
     .small-italic {
-        margin-top: 3px;
         font-weight: lighter;
         text-align: left;
-    }
-    @media screen and (max-width: 1200px) and (min-width: 900px) {
-        flex-direction: column !important;
-
-        img {
-            margin: auto auto 0 !important;
-        }
-
-        .simple-cont {
-            margin: 5px auto auto !important;
-        }
+        font-size: 14px;
+        margin-top: 0px;
     }
 }
 
@@ -5925,64 +6275,9 @@ video#bgvid {
 }
 
 #team-graph {
+    max-width: 650px;
     width: 100%;
-
-    .simple-cont {
-        text-align: right;
-    }
-}
-
-.team-side {
-    height: 350px;
-    width: auto;
-    justify-content: flex-start;
-    margin: 80px auto auto;
-    @media screen and (max-width: 900px) {
-        flex-wrap: wrap;
-        height: auto;
-        margin: auto;
-        justify-content: flex-start;
-        width: 70%;
-
-        .team-cont {
-            margin: auto 20px;
-        }
-    }
-    @media screen and (max-width: 800px) {
-        width: 83%;
-    }
-    @media screen and (max-width: 630px) {
-        width: 100%;
-    }
-    @media screen and (max-width: 610px) {
-        flex-direction: column;
-
-        .team-cont {
-            margin-left: 0;
-        }
-
-        .team-side {
-            margin-left: 100px;
-        }
-    }
-}
-
-#team-center {
-    max-width: 600px;
-    height: auto;
-    @media screen and (max-width: 800px) {
-        order: -1;
-    }
-}
-
-#all-team-container {
-    @media screen and (max-width: 800px) {
-        flex-wrap: wrap;
-
-        .team-cont {
-            height: 110px;
-        }
-    }
+    margin: auto;
 }
 
 .uppercase {
@@ -6089,4 +6384,130 @@ video#bgvid {
     .simple-paragraph {
         margin: 0 auto;
     }
+}
+
+#next-btn-create{
+ max-width: 113px;
+}
+
+#done-btn-create{
+ max-width: 119px;
+}
+
+#load-more-ideas{
+  padding: 8px 28px;
+  margin-bottom: 30px;
+  margin-top: -50px;
+}
+
+#by-category{
+  margin-top: -100px;
+  padding-top: 30px;
+}
+
+
+.no-clickable{
+  cursor: default;
+}
+
+.numeration{
+  &:after{
+    content: 'th Pivot'
+  }
+  &.first{
+    &:after{
+      content: 'st Pivot'
+    }
+  }
+  &.second{
+    &:after{
+      content: 'nd Pivot'
+    }
+  }
+  &.third{
+    &:after{
+      content: 'rd Pivot'
+    }
+  }
+}
+
+
+.delete{
+  color: $gray-lighter;
+  font-size: 20px;
+  line-height: 20px;
+  cursor: pointer;
+  font-weight: bolder;
+
+  &:hover, &:active{
+    color: $color-red;
+  }
+
+  &.right{
+    margin: auto 0px auto 20px;
+  }
+
+}
+
+.swap-animation.ng-enter {
+  transition:0.5s linear all;
+}
+.swap-animation.ng-enter {
+  opacity: 0;
+  transition: 0.5s;
+}
+.swap-animation.ng-enter-active {
+  opacity: 1;
+  transition: 0.5s;
+}
+
+.read-more{
+  color: $wetopia-blue;
+  font-family: 'Museo';
+  cursor: pointer;
+  font-style: italic;
+  margin-left: 5px;
+}
+
+.white-padding-bottom{
+  width: 100%;
+  position: absolute;
+  background: white;
+}
+
+#welcome-modal{
+  background: white url('/static/img/PopUp bienvenida/fondo_cuadritos-01.png') no-repeat center top;
+  background-size: contain;
+  max-width: 550px;
+  width: 550px;
+  padding: 15px !important;
+
+  .centered-logo{
+    height: 120px;
+    margin: 30px auto 10px;
+  }
+
+  .blue-text{
+    font-size: 18px;
+    line-height: 16px;
+    margin: 0px auto;
+  }
+
+  .centered-img{
+    width: 250px;
+    margin: auto auto 15px auto;
+  }
+
+  .simple-paragraph{
+    font-family: 'Museo';
+    margin: 15px auto;
+  }
+
+  .color-button{
+    margin: 10px auto 20px;
+    font-size: 17px;
+    font-family: 'Museo';
+    font-weight: lighter;
+    padding: 8px 35px;
+  }
 }
