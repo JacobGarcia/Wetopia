@@ -1,4 +1,4 @@
-angular.module('musementApp')
+angular.module('wetopiaApp')
     .controller('mainCtrl', function($scope, loginDataService, invitationDataService, localStorageService, $state, AuthService, $translate, $window) {
 
         $scope.segue = [{}];
