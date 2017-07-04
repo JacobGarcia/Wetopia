@@ -12,7 +12,7 @@ let app = express(),
     server = http.createServer(app)
 
 // Database Configuration
-mongoose.connect(configDB.url); //connect to database
+mongoose.connect(process.env.MONGOLAB_URI || configDB.url); //connect to database
 
 //Parser
 app.use(bodyParser.json()); /* JSON support */
