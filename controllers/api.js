@@ -26,7 +26,7 @@ const jwtConfig = require("../config/jwt.js")
 
 // storage and upload
 const storage = multer.diskStorage({
-  destination: (req, file, callback) => callback(null, 'public/uploads/'),
+  destination: (req, file, callback) => callback(null, 'app/public/uploads/'),
   filename: (req, file, callback) => {
     callback(null, file.fieldname + '-' + Date.now() + '.' + file.originalname.split('.')[file.originalname.split('.').length -1])
   }
