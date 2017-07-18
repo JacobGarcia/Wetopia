@@ -26,6 +26,14 @@ Any Linux Distro
 
 ```bash
 npm install
+npm install -g gulp
+```
+
+**Manual steps**
+```
+cd public
+mkdir uploads
+cd ..
 ```
 
 ### Building Wetopia
