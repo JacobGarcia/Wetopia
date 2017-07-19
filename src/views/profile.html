@@ -13,7 +13,7 @@
                   <p class="sub-gray">NOTIFICATIONS</p>
                   <div class="scroll-list" ng-class="{'flex-cont':!currentUser.notifications||currentUser.notifications.length==0}">
                     <div class="simple-cont" ng-show="!currentUser.notifications||currentUser.notifications.length==0">
-                      <p  class="title-dark smaller disable">You have no notifications yet.</p>
+                      <p  class="title-dark smaller disable">You have no notifications yet</p>
                     </div>
                       <li class="not-block" ui-sref="myIdea({idea_id: notification.idea._id, pivotNumber: notification.pivot})" ng-repeat="notification in currentUser.notifications | orderBy:'_id':true" ng-class="{commented: notification.type == 'comment', says: notification.type != 'comment', new: !notification.seen}">
                         <div class="polygon-each-img-wrap">
@@ -105,7 +105,7 @@
               </div>
               <div class="cards-cont">
                 <div class="simple-margin-top" ng-show="user.ideas.length==0">
-                  <p  class="title-dark disable">{{user.name}} has no ideas yet.</p>
+                  <p  class="title-dark disable">{{user.name}} has no ideas yet</p>
                 </div>
                 <a class="card idea" ng-repeat="idea in ideasData" ng-href="/idea/{{idea._id}}" >
                   <div class="card-block">
