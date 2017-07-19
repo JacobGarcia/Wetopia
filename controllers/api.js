@@ -959,12 +959,12 @@ populate: {
 
 router.route('/socket/:id')
 .get(function(req, res) {
-  if (req.U_ID && req.params.id == GLOBAL.users.lastConnected) {
+  if (req.U_ID && req.params.id == global.users.lastConnected) {
     // you could loop through here instead for more accuracy but at the cost of speed
-    GLOBAL.users[req.U_ID] = GLOBAL.users.lastConnected // here the userId pairs with the socketId
-    console.log(GLOBAL.users)
+    global.users[req.U_ID] = global.users.lastConnected // here the userId pairs with the socketId
+    console.log(global.users)
   }
-  delete GLOBAL.users.lastConnected // get rid of this temporary spot
+  delete global.users.lastConnected // get rid of this temporary spot
   return res.status(200).json({message: 'Socket information setted'})
 })
 

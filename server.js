@@ -34,14 +34,14 @@ app.use('/', function(req, res) {
 var sockets = []
 
 // track userIds for all connected users
-GLOBAL.users = {}
+global.users = {}
 
 //SocketIO integration
 // This event will trigger when any user is connected.
 io.on('connection', (socket) => {
   console.log("A user connected!")
   sockets.push(socket) //push the open socket to the data structure
-  GLOBAL.users.lastConnected = socket.id // sets the user's socketId
+  global.users.lastConnected = socket.id // sets the user's socketId
 
   socket.emit('socket', socket.id) // sends a socket event over to the client
 
@@ -49,7 +49,7 @@ io.on('connection', (socket) => {
   socket.on('new_notification', (sender) => {
     console.log(sender.username + sender.type)
     // When any connected client emit this event, we will receive it here.
-    socket.to(GLOBAL.users[sender.userId]).emit('notify', sender)
+    socket.to(global.users[sender.userId]).emit('notify', sender)
     // io.emit('notify', sender)
     /* io.emit('something happend') // for all. */
     /* socket.broadcast.emit('something happend') // for all except me. */
