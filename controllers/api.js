@@ -538,45 +538,56 @@ router.route('/ideas/self/create')
 })
 
 // GET INFORMATION FOR A SPECIFIC IDEA/PIVOT
-router.route('/ideas/:idea_id/:pivot')
+router.route('/idea/:username/:ideaname/:pivot')
 .get(function (req, res) {
   const pivot = req.params.pivot
-  // get the idea specified by the id
-  Idea.findById(req.params.idea_id)
-  .populate('members', 'username image')
-  .populate('admin', 'username image')
-  .populate('category', 'name description')
-  .populate('pivots', 'id number problem description feedback')
-  .exec((error, idea) => {
-    if (error) res.status(500).json({'error': error, 'success': false})
-    else if (!idea) res.status(404).json({'error': 'Idea not found', 'success': false})
-    else if (pivot < 1 || pivot != parseInt(pivot)) res.status(400).json({'error': 'Malformed API request', 'success': false})
-    else if (pivot > idea.pivots.length) res.status(404).json({'error': 'Pivot not found', 'success': false})
-    else {
+  const username = req.params.username
+  const ideaname = req.params.ideaname
 
-      // order pivots
-      idea.pivots.sort((a, b) => {
-        return parseFloat(a.number) - parseFloat(b.number)
-      })
+  // first translate username to id
+  User.findOne({ username }, 'id')
+  .exec((error, user) => {
+    if (error) return res.status(500).json({'error': error, 'success': false})
+    else if (!user) return res.status(404).json({'error': 'Idea not found', 'success': false})
+    // get ideas specified by the ideaname
+    Idea.findOne({ 'admin': user.id, ideaname })
+    .populate('members', 'username image')
+    .populate('admin', 'username image')
+    .populate('category', 'name description')
+    .populate('pivots', 'id number problem description feedback')
+    .exec((error, idea) => {
+      // since the ideaname is not unique, determine if the user specified is the admin of that specified idea
+      if (error) res.status(500).json({'error': error, 'success': false})
+      else if (!idea) res.status(404).json({'error': 'Idea not found', 'success': false})
+      else if (pivot < 1 || pivot != parseInt(pivot)) res.status(400).json({'error': 'Malformed API request', 'success': false})
+      else if (pivot > idea.pivots.length) res.status(404).json({'error': 'Pivot not found', 'success': false})
+      else {
 
-      // Pivot specific information
-      Pivot.findById(idea.pivots[pivot - 1].id)
-      .lean()
-      .populate({
-        path: 'feedback',
-        model: 'Feedback',
-        populate: {
-          path: 'user',
-          model: 'User',
-          select: 'image name username'
-        }
-      })
-      .exec(function (err, pivot) {
-        if (err) res.status(500).json({'error': err, 'success': false})
-        else return res.status(200).json({idea, pivot})
-      })
-    }
+        // order pivots
+        idea.pivots.sort((a, b) => {
+          return parseFloat(a.number) - parseFloat(b.number)
+        })
+
+        // Pivot specific information
+        Pivot.findById(idea.pivots[pivot - 1].id)
+        .lean()
+        .populate({
+          path: 'feedback',
+          model: 'Feedback',
+          populate: {
+            path: 'user',
+            model: 'User',
+            select: 'image name username'
+          }
+        })
+        .exec(function (err, pivot) {
+          if (err) res.status(500).json({'error': err, 'success': false})
+          else return res.status(200).json({idea, pivot})
+        })
+      }
+    })
   })
+
 })
 // ADD UNIQUE VIEW TRACKING TO AN SPECIFIC IDEA/PIVOT
 .post(function (req, res) {
