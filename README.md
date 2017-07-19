@@ -25,21 +25,13 @@ Mac OSX
 
 ```bash
 npm install
-<<<<<<< HEAD
-npm install -g gulp 
-=======
 npm install -g gulp
->>>>>>> develop
 ```
 
 **Manual steps**
 ```
 cd public
 mkdir uploads
-<<<<<<< HEAD
-cd ..
-=======
->>>>>>> develop
 ```
 
 ### Building Wetopia
