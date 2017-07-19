@@ -33,7 +33,7 @@ angular.module('wetopiaApp')
                 authenticate: true
             })
             .state("myIdea", {
-                url: "/idea/:idea_id/:pivotNumber",
+                url: "/idea/:username/:ideaname/:pivotNumber",
                 params: {
                   pivotNumber: 1+"",  // default value of x is 5
                     },
@@ -42,7 +42,7 @@ angular.module('wetopiaApp')
                 authenticate: true
             })
             .state("idea", {
-                url: "/idea/:idea_id/:pivotNumber",
+                url: "/idea/:username/:ideaname/:pivotNumber",
                 params: {
                   pivotNumber: 1+"",  // default value of x is 5
                     },

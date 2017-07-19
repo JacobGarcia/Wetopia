@@ -254,6 +254,7 @@ router.route('/users/:username') //just when the url has "id=" it will run, othe
 .get(function (req, res) {
   const username = req.params.username
   User.findOne({ username }, '-password') //Return all excepting password
+  .populate('ideas')
   .exec(function(err, user) {
     if (err)
       return res.status(500).json({'error': err})
@@ -763,7 +764,9 @@ router.route('/ideas/trending')
             description: idea.description,
             admin: idea.admin,
             banner: idea.banner,
-            category: idea.category
+            category: idea.category,
+            ideaname: idea.ideaname,
+            pivots: idea.pivots
           })
         })
 

@@ -29,6 +29,8 @@ angular.module('wetopiaApp')
         var idea_id= $stateParams.idea_id;
         var pivot_number = $stateParams.pivotNumber;
         var user_id = localStorageService.get('user_id');
+        let username = $stateParams.username
+        let ideaname = $stateParams.ideaname
         $scope.currentUser = {};
         $scope.currentPivot = pivot_number;
         var currentComment = "";
@@ -113,7 +115,7 @@ angular.module('wetopiaApp')
 
         $scope.getIdea = function(pivotNumber){
           $scope.showPivots = false;
-          ideaDataService.getIdeaInformation(idea_id, pivotNumber, function(response){
+          ideaDataService.getIdeaInformation(username, ideaname, pivotNumber, function(response){
             if(response.status==200){
               $scope.currentPivot = pivotNumber;
               $scope.idea = response.data.idea;
@@ -122,7 +124,7 @@ angular.module('wetopiaApp')
               getLike();
               $scope.pivotSelected = $filter('enumeration')(pivotNumber);
               if($scope.idea.admin._id == user_id){
-                $state.go('myIdea', {idea_id:idea_id, pivotNumber: pivotNumber});
+                $state.go('myIdea', {username, ideaname, pivotNumber});
               }
             }
           }, function(res){

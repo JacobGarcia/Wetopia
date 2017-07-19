@@ -1,8 +1,8 @@
 angular.module('wetopiaApp')
 .service('ideaDataService', function($http) {
 
-  this.getIdeaInformation = function (idea_id, pivot, callback, errorCallback) {
-    return $http.get(window.HOST + '/api/ideas/'+ idea_id+'/'+pivot)
+  this.getIdeaInformation = function (username, ideaname, pivot, callback, errorCallback) {
+    return $http.get(window.HOST + '/api/idea/'+ username + '/' + ideaname + '/'+pivot)
     .then(callback, errorCallback)
   }
 
