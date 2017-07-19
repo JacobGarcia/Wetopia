@@ -20,6 +20,15 @@ angular.module('wetopiaApp')
   var username= $stateParams.username;
   getNotifications();
 
+  $scope.textCounter = function(field, field2, maxlimit){
+    var countfield = document.getElementById(field2)
+    console.log(countfield)
+    if (field.value.length > maxlimit) {
+      field.value = field.value.substring( 0, maxlimit );
+      return false;
+    } else countfield.value = maxlimit - field.value.length;
+  }
+
   $scope.getBannerImage = function(category){
     return $scope.categoriesBanner[category].banner;
   }
@@ -230,6 +239,8 @@ function convertToYears( date ){
      $state.go('home');
    }
  });
+
+
 
  function getNotifications(){
    notificationDataService.getNotifications(function(response){

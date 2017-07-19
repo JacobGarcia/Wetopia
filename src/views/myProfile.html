@@ -73,17 +73,17 @@
                         <!-- <div class="simple-cont"><p class="medium-gray" ng-show="user.username">@</p><p  class="medium-gray" ng-bind="user.username || 'Add a username.'"></p></div> -->
                     </div>
                     <div class="flex-cont" id="profile-info">
-                        <p class="title-dark left" ng-bind="user.name || 'Add your name.'"> </p>
-                        <p class="title-dark left subtitle "  ng-bind="user.lastname || 'Add your lastname.'"></p>
-                        <p class="medium-gray left padding"  ng-bind="user.profession || 'Add your profession.'"></p>
+                        <p class="title-dark left" ng-bind="user.name || 'First name'"> </p>
+                        <p class="title-dark left subtitle "  ng-bind="user.lastname || 'Last name'"></p>
+                        <p class="medium-gray left padding"  ng-bind="user.profession || 'Profession'"></p>
                         <p class="medium-gray left padding"  ng-show="!user.birthdate">Add your age</p>
                           <p class="medium-gray left padding"  ng-show="user.birthdate">{{user.birthdate| toYears}}</p>
-                        <div class="simple-cont left padding"><img class="left-img" src="/static/img/Gender_Icon.svg"> <p  class="medium-gray no-margins" ng-bind="user.gender || 'Add your gender.'"> </p></div>
-                        <div class="simple-cont left padding"><img  class="left-img"src="/static/img/Location_Icon.svg"><p  class="medium-gray no-margins" ng-bind="user.location || 'Add your country.'"></p></div>
+                        <div class="simple-cont left padding"><img class="left-img" src="/static/img/Gender_Icon.svg"> <p  class="medium-gray no-margins" ng-bind="user.gender || 'Gender'"> </p></div>
+                        <div class="simple-cont left padding"><img  class="left-img"src="/static/img/Location_Icon.svg"><p  class="medium-gray no-margins" ng-bind="user.location || 'Country'"></p></div>
                     </div>
                 </div>
                 <div class="flex-cont">
-                    <p class="title-dark left">About me:</p>
+                    <p class="title-dark left">About me</p>
                     <p class="normal-paragraph margin-tb left small-size" ng-bind="user.bio || 'Add a bio.'">
                 </div>
             </div>
@@ -128,11 +128,11 @@
                     </div>
                 </div>
                 <div class="flex-cont">
-                    <p class="title-dark left">About you:</p>
+                    <p class="title-dark left">About you</p>
                     <div class="form-description movil-p no-padding">
-                        <textarea name="about-textarea" class="feedback no-outline" maxlength="140" placeholder="About yourself" ng-model="user.bio"></textarea>
+                        <textarea name="about-textarea" class="feedback no-outline" maxlength="200" placeholder="About yourself" ng-model="user.bio" type="text" ng-trim="false"></textarea>
                         <div class="flex-cont absolute auto">
-                            <p class="normal-paragraph right" id="edit-textarea-length">140</p>
+                            <p class="normal-paragraph right" id="edit-textarea-length">{{200 - user.bio.length}}</p>
                         </div>
                         <a class="color-button blue left discard no-bottom border-radius-6" ng-click="updateProfileInfo()" href="">Done editing</a>
                     </div>
