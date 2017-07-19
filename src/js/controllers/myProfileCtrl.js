@@ -26,7 +26,7 @@ angular.module('wetopiaApp')
         var adminsData = [];
         $scope.testResults = [];
         var username = localStorageService.get('username');
-        $location.path('/profile/'+username).replace();
+        $location.path('/'+username).replace();
 
         function getNotifications(){
           notificationDataService.getNotifications(function(response){

@@ -100,7 +100,7 @@ angular.module('wetopiaApp')
                 //CHEK THIS
             })
             .state("profile", {
-                url: "/profile/:username",
+                url: "/:username",
                 controller: "profileCtrl",
                 templateUrl: "/static/views/profile.html",
                 authenticate: true,

@@ -614,6 +614,7 @@ a {
         @include font( 'Museo', 300);
         font-size: 12px;
         line-height: 18px;
+        resize: none;
         border: {
             radius: 4px;
             color: transparent;
