@@ -43,14 +43,9 @@ Compile files in the project
 gulp build
 ```
 
-Test the project
-```bash
-gulp test
-```
-
 Run the project
 ```bash
-npm start
+gulp develop
 ```
 
 ### Running Mongo on the web server
