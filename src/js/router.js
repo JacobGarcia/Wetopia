@@ -27,7 +27,7 @@ angular.module('wetopiaApp')
                 authenticate: false //Doesn't requires authentication
             })
             .state("home", {
-                url: "/ß",
+                url: "/",
                 controller: "homeCtrl",
                 templateUrl: "/static/views/home.html",
                 authenticate: true
@@ -51,21 +51,19 @@ angular.module('wetopiaApp')
                 authenticate: true
             })
             .state("createIdea", {
-                url: "/create-idea",
+                url: "/idea/create",
                 controller: "createIdeaCtrl",
-                templateUrl: "/static/views/createIdea.html",
+                templateUrl: "/static/views/create_idea.html",
                 authenticate: true
             })
             .state("createIdea.first", {
-                url: "/first",
                 // controller: "createIdeaCtrl",
-                templateUrl: "/static/views/createIdeaS1.html",
+                templateUrl: "/static/views/create_idea_s1.html",
                 authenticate: true
             })
             .state("createIdea.second", {
-                url: "/second",
                 // controller: "createIdeaCtrl",
-                templateUrl: "/static/views/createIdeaS2.html",
+                templateUrl: "/static/views/create_idea_s2.html",
                 authenticate: true, //mover
                 data: {
                     redirect: ['createIdeaDataService', function(createIdeaDataService) {
