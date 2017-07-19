@@ -10,7 +10,7 @@
     "url": "https://github.com/JacobGarcia/Wetopia.git"
   },
   "engines": {
-    "node": "6.10.11"
+    "node": "6.11.1"
   },
   "dependencies": {
     "angular": "^1.5.8",
