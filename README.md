@@ -16,9 +16,9 @@ Mac OSX
 
 | Module   | Version  |
 | -------- | -------- |
-| NodeJS   | v4.4.4   |
-| MongoDB  | v3.2.X   |
-| NPM      | v2.15.X  |
+| NodeJS   | v6.10.11 |
+| MongoDB  | v3.2.1   |
+| NPM      | v3.10.10 |
 | SendGrid | v4.7.1   |
 
 **Install dependencies**
