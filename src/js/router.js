@@ -27,7 +27,7 @@ angular.module('wetopiaApp')
                 authenticate: false //Doesn't requires authentication
             })
             .state("home", {
-                url: "/",
+                url: "/ß",
                 controller: "homeCtrl",
                 templateUrl: "/static/views/home.html",
                 authenticate: true
@@ -51,7 +51,7 @@ angular.module('wetopiaApp')
                 authenticate: true
             })
             .state("createIdea", {
-                url: "/createIdea",
+                url: "/create-idea",
                 controller: "createIdeaCtrl",
                 templateUrl: "/static/views/createIdea.html",
                 authenticate: true

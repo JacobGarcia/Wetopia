@@ -21,8 +21,8 @@ angular.module('wetopiaApp')
         $scope.errorOtherCategory = false;
         $scope.categorySelected = {};
 
-        if($location.path()=='/createIdea'){
-          $location.path('/createIdea/first')
+        if($location.path()=='/create-idea'){
+          $location.path('/create-idea/first')
         }
 
 
