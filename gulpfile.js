@@ -67,4 +67,4 @@ gulp.task('start', function () {
 })
 
 gulp.task('build',['min-sass','htmlminify','webpack'])
-gulp.task('test', ['sass','htmlminify','webpack','watch','start'])
+gulp.task('develop', ['sass','htmlminify','webpack','watch','start'])
