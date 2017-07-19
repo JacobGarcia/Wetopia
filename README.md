@@ -1,6 +1,6 @@
 # Wetopia
 
-<img src="http://wetopia.co/static/img/wetopia_w.png" width="10%" height="10%" style= "horizontal-align:middle;">
+<img src="https://wetopia.co/static/img/wetopia_w.png" width="10%" height="10%" style= "horizontal-align:middle;">
 
 **Welcome to Wetopia!**
 
@@ -10,8 +10,7 @@ Wetopia is the platform where entrepreneurs share ideas and improve their work
 
 ##### System requirements
 
-Mac OS
-Any Linux Distro
+Mac OSX
 
 ##### Third-party software versions
 
@@ -33,7 +32,6 @@ npm install -g gulp
 ```
 cd public
 mkdir uploads
-cd ..
 ```
 
 ### Building Wetopia
