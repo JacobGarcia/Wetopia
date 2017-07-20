@@ -144,9 +144,10 @@
                   </div>
                   <p class="name" ng-bind="comment.user.name"></p>
                   <p class="username" ng-bind="comment.user.username"></p>
-                  <img class="star-img" ng-src="{{comment.stars.length > 0 && '/static/img/starActive_Idea.svg' || '/static/img/starDis_Idea.svg'}}" ng-click="giveStarToFeedback(comment._id, $index)">
+                  <img class="star-img" ng-src="{{comment.stars.length > 0 && '/static/img/starActive_Idea.svg' || '/static/img/starDis_Idea.svg'}}"  ng-if="pivotSelectedNumber == idea.pivots.length" ng-click="giveStarToFeedback(comment._id, $index)">
+                  <img class="star-img-disabled" ng-src="{{comment.stars.length > 0 && '/static/img/starActive_Idea.svg' || '/static/img/starDis_Idea.svg'}}"  ng-if="pivotSelectedNumber < idea.pivots.length">
                   <p class="star" ng-bind="comment.stars.length"></p>
-                  <a class="delete right" ng-click="wantoToDeleteFeedback(comment._id, $index)" ng-if="currentUser.username == comment.user.username">  &times </a>
+                  <a class="delete right" ng-click="wantoToDeleteFeedback(comment._id, $index)" ng-if="currentUser.username == comment.user.username && pivotSelectedNumber == idea.pivots.length">  &times </a>
                 </div>
                 <div class="tab-paragraph" ng-bind="comment.comment">
                 </div>

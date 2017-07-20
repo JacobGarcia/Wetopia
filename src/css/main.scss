@@ -5313,6 +5313,13 @@ bluelink {
         cursor: pointer;
     }
 
+    .star-img-disabled {
+        height: 20px;
+        margin: auto 5px auto auto;
+        vertical-align: top;
+        cursor: default;
+    }
+
     p {
         font-family: 'Museo';
         font-size: 18px;
