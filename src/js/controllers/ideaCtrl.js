@@ -127,6 +127,7 @@ angular.module('wetopiaApp')
               $scope.interestShowed = false;
               getLike();
               $scope.pivotSelected = $filter('enumeration')(pivotNumber);
+              $scope.pivotSelectedNumber = pivotNumber;
               if($scope.idea.admin._id == user_id){
                 $state.go('myIdea', {username, ideaname, pivotNumber});
               }

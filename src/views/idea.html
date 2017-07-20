@@ -123,10 +123,10 @@
             <div class="flex-cont row wrap">
         <div class="flex-cont mid-page left-align pad-left">
 
-              <div class="form-description movil-p no-padding">
+              <div class="form-description movil-p no-padding" ng-if="pivotSelectedNumber == idea.pivots.length">
                  <p class="form-subtitle color"><span class="big-txt aqua-text">Give feedback</span>
                 </p>
-                  <textarea name="feedback-textarea" class="feedback" maxlength="300" ng-model="newComment" placeholder="What do you think about this idea and the current pivot? What would make it better?" ></textarea>
+                  <textarea name="feedback-textarea" class="feedback" maxlength="300" ng-model="newComment" placeholder="What do you think about this idea and the current pivot? What would make it better?"></textarea>
                   <a class="color-button blue right complete-form send-feedback-btn" ng-click="giveFeedback()">Publish</a>
               </div>
 
