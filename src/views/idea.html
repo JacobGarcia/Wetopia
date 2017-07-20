@@ -71,7 +71,8 @@
                     <div class="select-team">
                       <div class="tooltip" ng-repeat="member in idea.members">
                           <div class="polygon-each-img-wrap">
-                              <div class="polygon-clip-hexagon" ngf-background="member.image || '/static/img/PROJECT_VIEWS/User_ICON.svg'" >
+                              <div class="polygon-clip-hexagon" ngf-background="member.image || '/static/img/PROJECT_VIEWS/User_ICON.svg'"
+                               ng-click="gotoProfile(member.username)">
                               </div>
                           </div>
                           <p class="tooltiptext">{{member.username}}</p>

@@ -17,7 +17,7 @@ angular.module('wetopiaApp')
           }
         };
       })
-    .controller('ideaCtrl', function($scope, ideaDataService, $state, $filter, $stateParams, categoriesDataService, localStorageService, notificationDataService, socket) {
+    .controller('ideaCtrl', function($scope, $location, ideaDataService, $state, $filter, $stateParams, categoriesDataService, localStorageService, notificationDataService, socket) {
         $scope.notification = false;
         $scope.showNotifications=false;
         $scope.showUserMenu=false;
@@ -46,6 +46,10 @@ angular.module('wetopiaApp')
         $scope.logOut = function(){
           localStorageService.clearAll();
           $state.go('landing');
+        }
+
+        $scope.gotoProfile = function(username){
+          $location.path('/'+username)
         }
 
         $scope.wantoToDeleteFeedback = function(comment_id, index){
