@@ -130,10 +130,11 @@
                   <a class="color-button blue right complete-form send-feedback-btn" ng-click="giveFeedback()">Publish</a>
               </div>
 
-            <p class="black-medium bolder">Current Pivot Feedback</p>
+            <p class="black-medium bolder">Pivot Feedback</p>
             <div class="comments flex-cont">
               <div class="simple-margin-top" ng-show="pivot.feedback.length==0">
-                <p  class="title-dark disable">Be the first comment.</p>
+                <p  class="title-dark disable" ng-if="pivotSelectedNumber == idea.pivots.length">Be the first to comment</p>
+                <p  class="title-dark disable" ng-if="pivotSelectedNumber < idea.pivots.length">There are no comments to show</p>
               </div>
               <div class="comment flex-box" ng-repeat="comment in pivot.feedback" >
                 <div class="flex-cont comment-top">
@@ -160,8 +161,8 @@
 
 
         <div class="flex-cont mid-page left-align pad-left" ng-show="!interestShowed">
-            <p class="black-medium dark">How good is this idea?</p>
-            <div id="res-statistics" class="left-align">
+            <p class="black-medium dark" ng-if="pivotSelectedNumber == idea.pivots.length">How good is this idea?</p>
+            <div id="res-statistics" class="left-align" ng-if="pivotSelectedNumber == idea.pivots.length">
                 <table class="right-num">
                     <tr>
                         <td ng-click="changeLike('money')"><img class="pointer" ng-src="{{like=='money'?'/static/img/Likes/noti_like 4.svg':'/static/img/Likes/like 4_Active.svg'}}"></td>
