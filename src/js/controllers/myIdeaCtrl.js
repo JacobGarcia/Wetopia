@@ -344,21 +344,21 @@ angular.module('wetopiaApp')
         })
 
         socket.on('notify', (sender) => {
-          notifyMe(sender);
-          $scope.notification = true;
-          var newNotification = {
-            sender: {
-              image: sender.image,
-              name: sender.name
-            },
-            idea: {
-              _id: sender.ideaId,
-              name: sender.idea
-            },
-            pivot: sender.pivot,
-            type: sender.type
-          }
-          $scope.currentUser.notifications.push(newNotification);
+          // notifyMe(sender);
+          // $scope.notification = true;
+          // var newNotification = {
+          //   sender: {
+          //     image: sender.image,
+          //     name: sender.name
+          //   },
+          //   idea: {
+          //     _id: sender.ideaId,
+          //     name: sender.idea
+          //   },
+          //   pivot: sender.pivot,
+          //   type: sender.type
+          // }
+          // $scope.currentUser.notifications.push(newNotification);
         })
 
         function notifyMe(sender) {

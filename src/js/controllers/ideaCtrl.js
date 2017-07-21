@@ -274,23 +274,23 @@ angular.module('wetopiaApp')
           $scope.notification = true;
           switch (sender.type) {
             case 'money':
-            notification_message = ' says "I buy it!" on your '
+            notification_message = ' says "I buy it!" on your idea '
             break;
             case 'love':
-            notification_message = ' says "I love it!" on your '
+            notification_message = ' says "I love it!" on your idea '
             break;
             case 'like':
-            notification_message = ' says "Not bad" on your '
+            notification_message = ' says "Not bad" on your idea '
             break;
             case 'dislike':
-            notification_message = ' says "I don\'t like it" on your '
+            notification_message = ' says "I don\'t like it" on your idea '
             break;
             default:
-            notification_message = " commented on your "
+            notification_message = " commented on your idea "
             break;
           }
           var options = {
-            body: sender.name + notification_message + $filter('enumeration')(sender.pivot) + " of "+sender.idea,
+            body: sender.name + notification_message + sender.idea,
             icon: sender.image
           }
           // Let's check if the browser supports notifications
