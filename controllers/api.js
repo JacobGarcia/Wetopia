@@ -343,21 +343,29 @@ router.route('/ideas/:idea_id/:feedback_id/star')
 .post(function (req, res) {
   /* Starr a Feddback on an IDEA */
   Feedback.findById(req.params.feedback_id)
-  .update({ $addToSet: { 'stars': req.U_ID } })
+  //.update({ $addToSet: { 'stars': req.U_ID } })
   .exec(function(err, result) {
-    if (err) {
-      res.status(500).json({'error': err})
-    } else if (result.nModified == 0){ //If the comment wasn't modified, it was already starred
+    if (err) return res.status(500).json({'error': err})
+    else if (result.user == req.U_ID) return res.status(401).json({error:{message: "This is your comment. You cannot star your own comments"}})
+    else {
       Feedback.findById(req.params.feedback_id)
-      .update({ $pull: { 'stars': req.U_ID } })
-      .exec(function(err, feedback){
+      .update({ $addToSet: { 'stars': req.U_ID } })
+      .exec(function(err, result) {
         if (err) return res.status(500).json({'error': err})
-        return res.status(200).json(feedback)
+        else if (result.nModified == 0){ //If the comment wasn't modified, it was already starred
+          Feedback.findById(req.params.feedback_id)
+          .update({ $pull: { 'stars': req.U_ID } })
+          .exec(function(err, feedback){
+            if (err) return res.status(500).json({'error': err})
+            return res.status(200).json(feedback)
+          })
+        }
+        else {
+          res.status(201).json(result)
+        }
       })
     }
-    else {
-      res.status(201).json(result)
-    }
+
   })
 })
 
