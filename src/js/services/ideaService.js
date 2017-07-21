@@ -6,8 +6,8 @@ angular.module('wetopiaApp')
     .then(callback, errorCallback)
   }
 
-  this.updateIdeaInformation = function (idea_id, pivot, newInformation, callback) {
-    return $http.put(window.HOST + '/api/ideas/'+ idea_id+'/'+pivot, newInformation)
+  this.updateIdeaInformation = function (username, ideaname, pivot, newInformation, callback) {
+    return $http.put(window.HOST + '/api/idea/'+ username + '/' + ideaname + '/' +pivot, newInformation)
     .then(callback)
   }
 

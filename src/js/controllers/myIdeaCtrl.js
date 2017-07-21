@@ -184,7 +184,7 @@ angular.module('wetopiaApp')
                          if(res.data.file_name){
                            newInformation.banner = '/static/uploads/'+ res.data.file_name;
                          }
-                         ideaDataService.updateIdeaInformation(idea_id, $scope.currentPivot, newInformation, function(response){
+                         ideaDataService.updateIdeaInformation(username, ideaname, $scope.currentPivot, newInformation, function(response){
                            if(response.status!=200){
                              window.alert("There was a problem. Please, try again later.");
                            }
@@ -193,7 +193,7 @@ angular.module('wetopiaApp')
                        console.log(errRes);
                      });
           }
-          ideaDataService.updateIdeaInformation(idea_id, $scope.currentPivot, newInformation, function(response){
+          ideaDataService.updateIdeaInformation(username, ideaname, $scope.currentPivot, newInformation, function(response){
             if(response.status!=200){
               window.alert("There was a problem. Please, try again later.");
             }

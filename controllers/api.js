@@ -409,6 +409,7 @@ router.route('/feedback/:feedback_id')
 ***          IDEAS                 ***
 ***                                ***
 *************************************/
+// GET INTEREST ON AN IDEA
 router.route('/idea/:username/:ideaname/:pivot/interest')
 .get(function (req, res) {
   const pivot = req.params.pivot
@@ -658,34 +659,44 @@ router.route('/idea/:username/:ideaname/:pivot')
 .put(function (req, res) {
   // Pivot Management
   const pivot = req.params.pivot
+  const username = req.params.username
+  const ideaname = req.params.ideaname
+
   const banner = req.body.banner
   const description = req.body.description
   const problem = req.body.problem
   const members = req.body.members
   const country = req.body.country
   const name = req.body.name
-  // Update the idea
-  Idea.findOneAndUpdate({'_id': req.params.idea_id}, { $set: { banner, country, description, members, name } }, { new: true })
-  .populate('pivots')
-  .exec((error, idea) => {
-    if (error) res.status(500).json({'error': error, 'success': false})
-    else if (!idea) res.status(404).json({'error': 'Idea not found', 'success': false})
-    else if (pivot < 1 || pivot != parseInt(pivot)) res.status(400).json({'error': 'Malformed API request', 'success': false})
-    else if (pivot > idea.pivots.length) res.status(404).json({'error': 'Pivot not found', 'success': false})
-    else {
-        // sort pivots
-        idea.pivots.sort((a, b) => {
-          return parseFloat(a.number) - parseFloat(b.number)
-        })
-        const myIdea = idea.pivots[pivot - 1].id
-        //Update pivot specific information
-        Pivot.findOneAndUpdate({'_id': myIdea}, { $set: { description, problem } }, { new: true })
-        .exec((error, user) => {
-          if (error) return res.status(500).json({ error })
-          return res.status(200).json({ user })
-        })
-      }
-    })
+
+  // first translate username to id
+  User.findOne({ username }, 'id')
+  .exec((error, user) => {
+    if (error) return res.status(500).json({'error': error, 'success': false})
+    else if (!user) return res.status(404).json({'error': 'Idea not found', 'success': false})
+    // get ideas specified by the ideaname
+    Idea.findOneAndUpdate({ 'admin': user.id, ideaname }, { $set: { banner, country, description, members, name } }, { new: true })
+    .populate('pivots')
+    .exec((error, idea) => {
+      if (error) res.status(500).json({'error': error, 'success': false})
+      else if (!idea) res.status(404).json({'error': 'Idea not found', 'success': false})
+      else if (pivot < 1 || pivot != parseInt(pivot)) res.status(400).json({'error': 'Malformed API request', 'success': false})
+      else if (pivot > idea.pivots.length) res.status(404).json({'error': 'Pivot not found', 'success': false})
+      else {
+          // sort pivots
+          idea.pivots.sort((a, b) => {
+            return parseFloat(a.number) - parseFloat(b.number)
+          })
+          const myIdea = idea.pivots[pivot - 1].id
+          //Update pivot specific information
+          Pivot.findOneAndUpdate({'_id': myIdea}, { $set: { description, problem } }, { new: true })
+          .exec((error, user) => {
+            if (error) return res.status(500).json({ error })
+            return res.status(200).json({ user })
+          })
+        }
+      })
+  })
 })
 // DELETE IDEA AND ALL THE PIVOTS RELATED TO THE IDEA
 .delete(function (req, res) {
