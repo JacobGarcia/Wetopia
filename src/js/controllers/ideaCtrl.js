@@ -254,6 +254,7 @@ angular.module('wetopiaApp')
         socket.on('notify', (sender) => {
           notifyMe(sender);
           $scope.notification = true;
+          $scope.$apply();
           var newNotification = {
             sender: {
               image: sender.image,
@@ -271,7 +272,6 @@ angular.module('wetopiaApp')
 
         function notifyMe(sender) {
           var notification_message;
-          $scope.notification = true;
           switch (sender.type) {
             case 'money':
             notification_message = ' says "I buy it!" on your idea '
