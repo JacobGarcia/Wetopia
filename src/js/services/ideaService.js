@@ -2,12 +2,12 @@ angular.module('wetopiaApp')
 .service('ideaDataService', function($http) {
 
   this.getIdeaInformation = function (username, ideaname, pivot, callback, errorCallback) {
-    return $http.get(window.HOST + '/api/idea/'+ username + '/' + ideaname + '/'+pivot)
+    return $http.get(window.HOST + '/api/'+ username + '/' + ideaname + '/'+pivot)
     .then(callback, errorCallback)
   }
 
   this.updateIdeaInformation = function (username, ideaname, pivot, newInformation, callback) {
-    return $http.put(window.HOST + '/api/idea/'+ username + '/' + ideaname + '/' +pivot, newInformation)
+    return $http.put(window.HOST + '/api/'+ username + '/' + ideaname + '/' +pivot, newInformation)
     .then(callback)
   }
 
@@ -37,7 +37,7 @@ angular.module('wetopiaApp')
   }
 
   this.giveFeedback = function (username, ideaname, pivot, text, callback, errorCallback) {
-    return $http.post(window.HOST + '/api/idea/' + username + '/' + ideaname + '/' + pivot + '/feedback', text)
+    return $http.post(window.HOST + '/api/idea/feedback' + username + '/' + ideaname + '/' + pivot, text)
     .then(callback, errorCallback)
   }
 
@@ -52,17 +52,17 @@ angular.module('wetopiaApp')
   }
 
   this.giveLike = function (username, ideaname, pivot_id, like_type, callback, errorCallback) {
-    return $http.post(window.HOST + '/api/idea/'+ username + '/' + ideaname + '/'+ pivot_id+'/interest', like_type)
+    return $http.post(window.HOST + '/api/idea/interest/'+ username + '/' + ideaname + '/'+ pivot_id, like_type)
     .then(callback, errorCallback)
   }
 
   this.getLike = function (username, ideaname, pivot_id, callback, errorCallback) {
-      return $http.get(window.HOST + '/api/idea/'+ username + '/' + ideaname + '/'+ pivot_id+'/interest')
+      return $http.get(window.HOST + '/api/idea/interest/'+ username + '/' + ideaname + '/'+ pivot_id)
     .then(callback, errorCallback)
   }
 
-  this.createNewPivot = function (idea_id, pivotInformation, callback, errorCallback) {
-    return $http.post(window.HOST + '/api/ideas/this/'+idea_id+'/pivot', pivotInformation)
+  this.createNewPivot = function (username, ideaname, pivotInformation, callback, errorCallback) {
+    return $http.post(window.HOST + '/api/idea/pivot/'+username+ '/' + ideaname, pivotInformation)
     .then(callback, errorCallback)
   }
 

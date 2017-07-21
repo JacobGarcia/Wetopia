@@ -17,7 +17,7 @@ angular.module('wetopiaApp')
         }
       };
     })
-    .controller('myIdeaCtrl', function($scope, $window, localStorageService, $http, $state, Upload, ideaDataService, categoriesDataService, $filter, $stateParams, notificationDataService, socket) {
+    .controller('myIdeaCtrl', function($scope, $location, $window, localStorageService, $http, $state, Upload, ideaDataService, categoriesDataService, $filter, $stateParams, notificationDataService, socket) {
         $scope.pivoting = false;
         $scope.notification = false;
         $scope.showNotifications=false;
@@ -249,7 +249,7 @@ angular.module('wetopiaApp')
               description: $scope.newIdea,
               problem : $scope.newProblem
             }
-            ideaDataService.createNewPivot(idea_id, newPivotInfo, function(response){
+            ideaDataService.createNewPivot(username, ideaname, newPivotInfo, function(response){
               if(response.status!=201){
                 window.alert("There was a problem. Please, try again later. "+response.status);
               }
@@ -257,6 +257,7 @@ angular.module('wetopiaApp')
               $scope.newProblem="";
               $scope.pivoting = false;
               $scope.pivotDescriptionError = false;
+              $location.path('/' + username + '/' + ideaname + '/' + response.data.pivot.number)
             })
           }
         }

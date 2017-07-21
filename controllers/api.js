@@ -293,7 +293,7 @@ router.route('/users/:username') //just when the url has "id=" it will run, othe
 ***                                ***
 *************************************/
 // GIVE FEEDBACK TO AN IDEA/PIVOT
- router.route('/idea/:username/:ideaname/:pivot/feedback')
+ router.route('/idea/feedback/:username/:ideaname/:pivot')
 .post(function (req, res) {
   const pivot = req.params.pivot
   const username = req.params.username
@@ -410,7 +410,7 @@ router.route('/feedback/:feedback_id')
 ***                                ***
 *************************************/
 // GET INTEREST ON AN IDEA
-router.route('/idea/:username/:ideaname/:pivot/interest')
+router.route('/idea/interest/:username/:ideaname/:pivot')
 .get(function (req, res) {
   const pivot = req.params.pivot
   const username = req.params.username
@@ -575,7 +575,7 @@ router.route('/ideas/self/create')
 })
 
 // GET INFORMATION FOR A SPECIFIC IDEA/PIVOT
-router.route('/idea/:username/:ideaname/:pivot')
+router.route('/:username/:ideaname/:pivot')
 .get(function (req, res) {
   const pivot = req.params.pivot
   const username = req.params.username
@@ -746,34 +746,43 @@ router.route('/idea/:username/:ideaname/:pivot')
 })
 
 // PIVOT AN IDEA (CREATE PIVOT)
-router.route('/ideas/this/:idea_id/pivot')
+router.route('/idea/pivot/:username/:ideaname')
 .post(function (req, res) {
+  const pivot = req.params.pivot
+  const username = req.params.username
+  const ideaname = req.params.ideaname
 
-  // get the idea specified by the id
-  Idea.findById(req.params.idea_id)
-  .exec((error, idea) => {
-    if (error) res.status(500).json({'error': error, 'success': false})
-    else if (!idea) res.status(404).json({'error': 'Idea not found', 'success': false})
-    else {
+  // first translate username to id
+  User.findOne({ username }, 'id')
+  .exec((error, user) => {
+    if (error) return res.status(500).json({'error': error, 'success': false})
+    else if (!user) return res.status(404).json({'error': 'Idea not found', 'success': false})
+    // get ideas specified by the ideaname
+    Idea.findOne({ 'admin': user.id, ideaname })
+    .exec((error, idea) => {
+      if (error) res.status(500).json({'error': error, 'success': false})
+      else if (!idea) res.status(404).json({'error': 'Idea not found', 'success': false})
+      else {
 
-      // create the pivot
-      let pivot = new Pivot({
-        description: req.body.description,
-        problem: req.body.problem,
-        number: idea.pivots.length + 1
-      })
-
-      pivot.save(function(err, newIdea) {
-        if (err) return res.status(500).json({'err':err})
-
-        // add reference of pivot to the specified idea
-        Idea.findOneAndUpdate({'_id': req.params.idea_id}, { $addToSet: {'pivots': newIdea }, $set: { description: req.body.description } }, { new: true })
-        .exec(function(err){
-          if (err) return res.status(500).json({'error': err})
-          return res.status(201).json({message: 'Created Pivot!', pivot: newIdea})
+        // create the pivot
+        let pivot = new Pivot({
+          description: req.body.description,
+          problem: req.body.problem,
+          number: idea.pivots.length + 1
         })
-      })
-    }
+
+        pivot.save(function(err, newIdea) {
+          if (err) return res.status(500).json({'err':err})
+
+          // add reference of pivot to the specified idea
+          Idea.findOneAndUpdate({ 'admin': user.id, ideaname }, { $addToSet: {'pivots': newIdea }, $set: { description: req.body.description } }, { new: true })
+          .exec(function(err){
+            if (err) return res.status(500).json({'error': err})
+            return res.status(201).json({message: 'Created Pivot!', pivot: newIdea})
+          })
+        })
+      }
+    })
   })
 })
 

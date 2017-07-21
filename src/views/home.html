@@ -83,7 +83,7 @@
                 <div class="simple-margin-top" ng-show="showingIdeas.length==0">
                   <p  class="title-dark disable">There are no ideas to show.</p>
                 </div>
-                <a class="card idea" ng-repeat="idea in showingIdeas | limitTo:limitIdeas" ng-href="/idea/{{idea.admin.username}}/{{idea.ideaname}}/{{idea.pivots.length}}" >
+                <a class="card idea" ng-repeat="idea in showingIdeas | limitTo:limitIdeas" ng-href="/{{idea.admin.username}}/{{idea.ideaname}}/{{idea.pivots.length}}" >
                   <div class="card-block">
                     <div class="card-img" ngf-background="idea.banner || getBannerImage(idea.category.name)">
                     </div>
