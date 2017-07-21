@@ -17,7 +17,7 @@ $scope.categoriesService = categoriesDataService.categories;
 $scope.showingIdeas = [];
 $scope.recommendedCategories = [];
 $scope.welcome = signupDataService.user.isNew;
-var initialLimit = 8;
+var initialLimit = 12;
 $scope.limitIdeas = initialLimit;
 getTrendingIdeas();
 getNotifications();

@@ -109,7 +109,7 @@ angular.module('wetopiaApp')
             let newComment = {
               text : $scope.newComment
             };
-            ideaDataService.giveFeedback(idea_id, $scope.currentPivot, newComment, function(response){
+            ideaDataService.giveFeedback(username, ideaname, $scope.currentPivot, newComment, function(response){
               pushNotification('comment');
               $scope.pivot.feedback.push(response.data.feedback);
               $scope.newComment = "";

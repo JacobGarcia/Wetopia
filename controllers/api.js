@@ -293,48 +293,57 @@ router.route('/users/:username') //just when the url has "id=" it will run, othe
 ***                                ***
 *************************************/
 // GIVE FEEDBACK TO AN IDEA/PIVOT
- router.route('/ideas/:idea_id/:pivot/feedback')
+ router.route('/idea/:username/:ideaname/:pivot/feedback')
 .post(function (req, res) {
   const pivot = req.params.pivot
-  // get the idea specified by the id
-  Idea.findById(req.params.idea_id)
-  .populate('pivots')
-  .exec((error, idea) => {
-    if (error) res.status(500).json({'error': error, 'success': false})
-    else if (!idea) res.status(404).json({'error': 'Idea not found', 'success': false})
-    else if (pivot < 1 || pivot != parseInt(pivot)) res.status(400).json({'error': 'Malformed API request', 'success': false})
-    else if (pivot > idea.pivots.length) res.status(404).json({'error': 'Pivot not found', 'success': false})
-    else if (pivot < idea.pivots.length) res.status(401).json({'error': 'Older pivots are not modifiable', 'success': false})
-    else {
-      //order pivots
-      idea.pivots.sort((a, b) => {
-        return parseFloat(a.number) - parseFloat(b.number)
-      })
+  const username = req.params.username
+  const ideaname = req.params.ideaname
 
-      //create comment
-      let feedback = new Feedback({
-        user: req.U_ID,
-        comment: req.body.text,
-        pivot: idea.pivots[pivot - 1].id
-      })
+  // first translate username to id
+  User.findOne({ username }, 'id')
+  .exec((error, user) => {
+    if (error) return res.status(500).json({'error': error, 'success': false})
+    else if (!user) return res.status(404).json({'error': 'Idea not found', 'success': false})
+    // get ideas specified by the ideaname
+    Idea.findOne({ 'admin': user.id, ideaname })
+    .populate('pivots')
+    .exec((error, idea) => {
+      if (error) res.status(500).json({'error': error, 'success': false})
+      else if (!idea) res.status(404).json({'error': 'Idea not found', 'success': false})
+      else if (pivot < 1 || pivot != parseInt(pivot)) res.status(400).json({'error': 'Malformed API request', 'success': false})
+      else if (pivot > idea.pivots.length) res.status(404).json({'error': 'Pivot not found', 'success': false})
+      else if (pivot < idea.pivots.length) res.status(401).json({'error': 'Older pivots are not modifiable', 'success': false})
+      else {
+        //order pivots
+        idea.pivots.sort((a, b) => {
+          return parseFloat(a.number) - parseFloat(b.number)
+        })
 
-      //save comment
-      feedback.save(function(err, feedback) {
-        if (err)  return res.status(500).json({'err':err})
-        Pivot.findOneAndUpdate({'_id': idea.pivots[pivot - 1].id}, { $push: {'feedback': feedback._id } }, { multi: true })
-        .exec(function(err, ideas) {
-          if (err) return res.status(500).json({'error': err})
-          feedback.populate({
-              path: 'user',
-              model: 'User',
-              select: 'image name username'
-          }, function(err, feedback){
-            if (err) return res.status(500).json({'error': err,})
-            else res.status(201).json({feedback})
+        //create comment
+        let feedback = new Feedback({
+          user: req.U_ID,
+          comment: req.body.text,
+          pivot: idea.pivots[pivot - 1].id
+        })
+
+        //save comment
+        feedback.save(function(err, feedback) {
+          if (err)  return res.status(500).json({'err':err})
+          Pivot.findOneAndUpdate({'_id': idea.pivots[pivot - 1].id}, { $push: {'feedback': feedback._id } }, { multi: true })
+          .exec(function(err, ideas) {
+            if (err) return res.status(500).json({'error': err})
+            feedback.populate({
+                path: 'user',
+                model: 'User',
+                select: 'image name username'
+            }, function(err, feedback){
+              if (err) return res.status(500).json({'error': err,})
+              else res.status(201).json({feedback})
+            })
           })
         })
-      })
-    }
+      }
+    })
   })
 })
 
