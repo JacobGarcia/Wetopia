@@ -155,37 +155,36 @@
             </div>
         </div>
 
-        <div class="flex-cont mid-page left-align pad-left" ng-show="interestShowed">
-          <p class="sub-gray smaller-font">THANKS FOR YOUR OPINION!</p>
-          <p class="medium light no-margin centered">WE'LL CONSIDER IT FOR OUR LATEST UPDATES!</p>
-        </div>
 
-
-        <div class="flex-cont mid-page left-align pad-left" ng-show="!interestShowed">
-            <p class="black-medium dark" ng-if="pivotSelectedNumber == idea.pivots.length">How good is this idea?</p>
+        <div class="flex-cont mid-page left-align pad-left">
+          <div class="flex-cont mid-page left-align pad-left" ng-show="interestShowed">
+            <p class="sub-gray smaller-font">THANKS FOR YOUR OPINION!</p>
+            <p class="medium light no-margin centered">WE'LL CONSIDER IT FOR OUR LATEST UPDATES!</p>
+          </div>
+            <p class="black-medium dark" ng-show="!interestShowed" ng-if="pivotSelectedNumber == idea.pivots.length">How good is this idea?</p>
             <div id="res-statistics" class="left-align" ng-if="pivotSelectedNumber == idea.pivots.length">
                 <table class="right-num">
                     <tr>
-                        <td ng-click="changeLike('money')"><img class="pointer" ng-src="{{like=='money'?'/static/img/Likes/noti_like 4.svg':'/static/img/Likes/like 4_Active.svg'}}"></td>
+                        <td ng-click="giveLike('money')"><img class="pointer" ng-src="{{like=='money'?'/static/img/Likes/noti_like 4.svg':'/static/img/Likes/like 4_Active.svg'}}"></td>
                         <td>I would buy it</td>
                     </tr>
                     <tr>
-                        <td  ng-click="changeLike('love')"><img class="pointer" ng-src="{{like=='love'?'/static/img/Likes/noti_like 3.svg':'/static/img/Likes/like 3_Active.svg'}}"></td>
+                        <td  ng-click="giveLike('love')"><img class="pointer" ng-src="{{like=='love'?'/static/img/Likes/noti_like 3.svg':'/static/img/Likes/like 3_Active.svg'}}"></td>
                         <td>Love it</td>
                     </tr>
                     <tr>
-                        <td ng-click="changeLike('like')"><img class="pointer" ng-src="{{like=='like'?'/static/img/Likes/noti_like 2.svg':'/static/img/Likes/like 2_Active.svg'}}"></td>
+                        <td ng-click="giveLike('like')"><img class="pointer" ng-src="{{like=='like'?'/static/img/Likes/noti_like 2.svg':'/static/img/Likes/like 2_Active.svg'}}"></td>
                         <td>Not bad</td>
                     </tr>
                     <tr>
-                        <td ng-click="changeLike('dislike')"><img class="pointer" ng-src="{{like=='dislike'?'/static/img/Likes/noti_like 1.svg':'/static/img/Likes/like 1_Active.svg'}}"></td>
+                        <td ng-click="giveLike('dislike')"><img class="pointer" ng-src="{{like=='dislike'?'/static/img/Likes/noti_like 1.svg':'/static/img/Likes/like 1_Active.svg'}}"></td>
                         <td>I don't like it</td>
                     </tr>
                 </table>
-                <div class="form-input" ng-show="likeFeedback" >
+                <!-- <div class="form-input" ng-show="likeFeedback" >
                   <input type="text" name="why-like" placeholder="Why?" ng-model="whyInterest" required="true">
                   <a class="color-button blue right complete-form send-feedback-btn"  href="" ng-click="giveLike()">Send</a>
-                </div>
+                </div> -->
             </div>
           </div>
 
@@ -230,7 +229,7 @@
                 <p class="sub-gray medium-margin">DELETE A COMMENT</p>
                 <p class="simple-paragraph lighter">Are you sure you want to delete this comment?</p>
                 <div class="flex-cont row eighty">
-                    <a class="color-button blue complete-form discard no-bottom" id="yes-delete-comment"  ng-click="deleteFeedback()">Yes, Delete it</a>
+                    <a class="color-button blue complete-form discard no-bottom" id="yes-delete-comment"  ng-click="deleteFeedback()">Yes, delete it</a>
                 </div>
                 <a href="" class="medium-bold gray less-top lighter-font pointer" ng-click="wantToDeleteComment=false">Cancel</a>
             </div>

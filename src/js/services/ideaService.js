@@ -51,13 +51,13 @@ angular.module('wetopiaApp')
     .then(callback, errorCallback)
   }
 
-  this.giveLike = function (idea_id, pivot_id, like_type, callback, errorCallback) {
-    return $http.post(window.HOST + '/api/ideas/'+idea_id+'/'+pivot_id+'/interest', like_type)
+  this.giveLike = function (username, ideaname, pivot_id, like_type, callback, errorCallback) {
+    return $http.post(window.HOST + '/api/idea/'+ username + '/' + ideaname + '/'+ pivot_id+'/interest', like_type)
     .then(callback, errorCallback)
   }
 
-  this.getLike = function (idea_id, pivot_id, callback, errorCallback) {
-    return $http.get(window.HOST + '/api/ideas/'+idea_id+'/'+pivot_id+'/interest')
+  this.getLike = function (username, ideaname, pivot_id, callback, errorCallback) {
+      return $http.get(window.HOST + '/api/idea/'+ username + '/' + ideaname + '/'+ pivot_id+'/interest')
     .then(callback, errorCallback)
   }
 

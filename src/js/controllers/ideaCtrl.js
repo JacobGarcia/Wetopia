@@ -80,7 +80,7 @@ angular.module('wetopiaApp')
         }
 
         function getLike(){
-          ideaDataService.getLike(idea_id, $scope.currentPivot, function(response){
+          ideaDataService.getLike(username, ideaname, $scope.currentPivot, function(response){
             if(response.data.interest){
                 $scope.like = response.data.interest.interests[0].type;
             }
@@ -90,19 +90,19 @@ angular.module('wetopiaApp')
           })
         }
 
-        $scope.giveLike =function(){
-          let like = {
-            interest: $scope.like,
-            comment: $scope.whyInterest
-          }
-          ideaDataService.giveLike(idea_id, $scope.currentPivot, like, function(response){
-            if(response.status == 200){
-              pushNotification(like.interest);
-              $scope.likeFeedback = false;
-              $scope.interestShowed = true;
-            }
-          })
-        }
+        // $scope.giveLike =function(){
+        //   let like = {
+        //     interest: $scope.like,
+        //     comment: $scope.whyInterest
+        //   }
+        //   ideaDataService.giveLike(username, ideaname, $scope.currentPivot, like, function(response){
+        //     if(response.status == 200){
+        //       pushNotification(like.interest);
+        //       $scope.likeFeedback = false;
+        //       $scope.interestShowed = true;
+        //     }
+        //   })
+        // }
 
         $scope.giveFeedback = function(){
           if($scope.newComment){
@@ -143,21 +143,32 @@ angular.module('wetopiaApp')
           return $scope.categoriesBanner[category].banner;
         }
 
-        $scope.changeLike = function(like){
-          if($scope.like==like){
+        $scope.giveLike = function(like){
+          let interest = like;
+          if($scope.like == like){
             let deleteLike = {
               interest: $scope.like
             }
             $scope.likeFeedback = false;
-            ideaDataService.giveLike(idea_id, $scope.currentPivot, deleteLike, function(response){
+            ideaDataService.giveLike(username, ideaname, $scope.currentPivot, deleteLike, function(response){
               if(response.status == 200){
                   $scope.like = "";
               }
             })
           }
           else{
-            $scope.like = like;
+            $scope.like = interest;
             $scope.likeFeedback = true;
+            let like = {
+              interest: $scope.like
+            }
+            ideaDataService.giveLike(username, ideaname, $scope.currentPivot, like, function(response){
+              if(response.status == 200){
+                pushNotification(like.interest);
+                $scope.likeFeedback = false;
+                $scope.interestShowed = true;
+              }
+            })
           }
         }
 
