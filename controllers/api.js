@@ -378,15 +378,53 @@ router.route('/ideas/:idea_id/:feedback_id/star')
   })
 })
 
-router.route('/feedback/:feedback_id')
+router.route('/feedback/:ideaname/:pivot/:feedback_id')
 // DELETE FEEDBACK
 .delete(function (req, res) {
+  const ideaname = req.params.ideaname
+  const pivot = req.params.pivot
   // find if feedback reference is valid
   Feedback.findById(req.params.feedback_id)
   .exec(function(err, feedback){
     if (err) return res.status(500).json({'error': err})
     if (!feedback) return res.status(404).json({'error': {'message': "Feedback not found"}})
-    if (feedback.user != req.U_ID) return res.status(401).json({error:{message: "This is not your comment. GFY you hacker!"}})
+    if (feedback.user != req.U_ID) {
+      //lets check if the user making the petition is actually the idea admin
+      Idea.findOne({ 'admin': req.U_ID, ideaname })
+      .populate('pivots')
+      .exec(function(err, idea){
+        if (err) return res.status(500).json({'error': err})
+        if (!idea) return res.status(404).json({'error': 'Idea not found', 'success': false})
+        if (pivot < 1 || pivot != parseInt(pivot)) return res.status(400).json({'error': 'Malformed API request', 'success': false})
+        if (pivot > idea.pivots.length) return res.status(404).json({'error': 'Pivot not found', 'success': false})
+        if (pivot < idea.pivots.length) return res.status(401).json({'error': 'Older pivots are not modifiable', 'success': false})
+        // order pivots
+        idea.pivots.sort((a, b) => {
+          return parseFloat(a.number) - parseFloat(b.number)
+        })
+
+        Pivot.findOne({'_id': idea.pivots[pivot - 1].id, 'feedback': req.params.feedback_id})
+        .exec(function(err, results) {
+          if (err) return res.status(500).json({'error': err})
+          if (!results)  return res.status(401).json({error:{message: "This is not your comment. GFY you hacker!"}})
+          // you are the admin
+          else {
+            // delete document from collection
+              Feedback.findById(req.params.feedback_id)
+              .remove(function(err){
+                if (err) return res.status(500).json({'error': err})
+
+                Pivot.findById(feedback.pivot)
+                .update({ $pull: { 'feedback': req.params.feedback_id } })
+                .exec(function(err, feedback){
+                  if (err) return res.status(500).json({'error': err})
+                  return res.status(200).json({'message': "Feedback successfully deleted"})
+                })
+              })
+          }
+        })
+      })
+    }
     else {
       // delete document from collection
         Feedback.findById(req.params.feedback_id)

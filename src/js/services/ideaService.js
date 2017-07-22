@@ -41,8 +41,8 @@ angular.module('wetopiaApp')
     .then(callback, errorCallback)
   }
 
-  this.deleteFeedback = function (feedback_id, callback, errorCallback){
-    return $http.delete(window.HOST + '/api/feedback/'+feedback_id)
+  this.deleteFeedback = function (ideaname, pivot, feedback_id, callback, errorCallback){
+    return $http.delete(window.HOST + '/api/feedback/'+ ideaname + '/' + pivot + '/' + feedback_id)
     .then(callback, errorCallback)
   }
 
