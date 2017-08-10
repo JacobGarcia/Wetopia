@@ -313,6 +313,7 @@ router.route('/users/:username') //just when the url has "id=" it will run, othe
       else if (pivot < 1 || pivot != parseInt(pivot)) res.status(400).json({'error': 'Malformed API request', 'success': false})
       else if (pivot > idea.pivots.length) res.status(404).json({'error': 'Pivot not found', 'success': false})
       else if (pivot < idea.pivots.length) res.status(401).json({'error': 'Older pivots are not modifiable', 'success': false})
+      else if (user.id === req.U_ID) res.status(401).json({'error': 'Creators of the idea cannot comment their own idea', 'success': false})
       else {
         //order pivots
         idea.pivots.sort((a, b) => {
