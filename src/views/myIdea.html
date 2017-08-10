@@ -256,14 +256,14 @@
                         </p>
                         <p class="red-text error bottom-0" ng-show="pivotDescriptionError">Please add a description of your idea.</p>
                         <textarea name="description" class="" ng-model="newIdea" maxlength="600" ng-click="pivotDescriptionError = false" placeholder="What's new on this pivot? How has your idea improved?"></textarea>
-                        <p class="textarea-length">600</p>
+                        <p class="textarea-length">{{600 - newIdea.length}}</p>
                     </div>
                     <div class="form-description movil-p ">
                         <img class="big-img" src="/static/img/Create Idea_problem.svg">
                         <p class="form-subtitle color"> <span class="big-txt red-text">Problem</span>
                         </p>
                         <textarea name="description" class="" ng-model="newProblem" maxlength="600" placeholder="What's new on this pivot? How has your idea improved?"></textarea>
-                        <p class="textarea-length">600</p>
+                        <p class="textarea-length">{{600 - newProblem.length}}</p>
                     </div>
                 </div>
                 <a class="color-button blue complete-form" href="" ng-click="createNewPivot()">Pivot</a>
