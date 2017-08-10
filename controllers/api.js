@@ -627,7 +627,7 @@ router.route('/:username/:ideaname/:pivot')
     else if (!user) return res.status(404).json({'error': 'Idea not found', 'success': false})
     // get ideas specified by the ideaname
     Idea.findOne({ 'admin': user.id, ideaname })
-    .populate('members', 'username image')
+    .populate('members', 'name lastname username image')
     .populate('admin', 'username image')
     .populate('category', 'name description')
     .populate('pivots', 'id number problem description feedback')

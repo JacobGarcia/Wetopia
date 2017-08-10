@@ -87,16 +87,18 @@ angular.module('wetopiaApp')
                   }
                   $scope.pivot.stats = stats;
                 })
-              var j=0;
-              for(var i =0; i < $scope.idea.members.length; i++){
-                if($scope.idea.members[i].username != $scope.idea.admin.username){
-                  $scope.members[j] = $scope.idea.members[i];
-                  j++;
-                }
+              var j = 0;
+              // load members
+              for(var i = 0; i < $scope.idea.members.length; i++){
+                 if($scope.idea.members[i].username != $scope.idea.admin.username){
+                   $scope.members[j] = $scope.idea.members[i];
+                   j++;
+                 }
               }
-                }
             }
-          }, function(res){
+            console.log($scope.members);
+          }
+        }, function(res){
             switch (res.status) {
               case 404:
                 $state.go('home');
