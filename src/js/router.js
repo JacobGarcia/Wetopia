@@ -13,10 +13,11 @@ angular.module('wetopiaApp')
                   //Check that the token is valid, time interval
                   var params = self.parseJwt(token)
                   if (!(Math.round(new Date().getTime() / 1000) <= params.exp)) auth = false
-                  if (token && auth) {
-                    $state.target('home')
-                    event.preventDefault()
-                  }
+                    if (token && auth) {
+                      $state.defaultErrorHandler(function() { /* do nothing */});
+                      event.preventDefault()
+                      $state.go('home')
+                    }
                   }
                 }
             })
@@ -169,28 +170,27 @@ angular.module('wetopiaApp')
             }
         };
     })
-
-//Run service to check the token is valid
-.run(function($rootScope, $state, AuthService,  $window, $injector, $anchorScroll) {
-    $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams) {
-       $window.scrollTo(0, 0);
-        if (toState.authenticate && !AuthService.isAuthenticated()) { // User isn’t authenticated
-            $state.transitionTo("landing"); //If it's not valid redirect to login
-            event.preventDefault();
-        }
-        if (toState.data && toState.data.redirect) {
-            var redirectTo = $injector.invoke(toState.data.redirect);
-            if (redirectTo) {
-                $state.go(redirectTo);
+    //Run service to check the token is valid
+    .run(function($rootScope, $state, AuthService,  $window, $injector, $anchorScroll) {
+        $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams) {
+           $window.scrollTo(0, 0);
+            if (toState.authenticate && !AuthService.isAuthenticated()) { // User isn’t authenticated
+                $state.transitionTo("landing"); //If it's not valid redirect to login
                 event.preventDefault();
             }
-        }
-        if (toState.verify && toState.verify.redirect) {
-            var redirectTo = $injector.invoke(toState.verify.redirect);
-            if (redirectTo) {
-                $state.go(redirectTo);
-                event.preventDefault();
+            if (toState.data && toState.data.redirect) {
+                var redirectTo = $injector.invoke(toState.data.redirect);
+                if (redirectTo) {
+                    $state.go(redirectTo);
+                    event.preventDefault();
+                }
             }
-        }
+            if (toState.verify && toState.verify.redirect) {
+                var redirectTo = $injector.invoke(toState.verify.redirect);
+                if (redirectTo) {
+                    $state.go(redirectTo);
+                    event.preventDefault();
+                }
+            }
+        });
     });
-});
