@@ -14,7 +14,7 @@ angular.module('wetopiaApp')
                   var params = self.parseJwt(token)
                   if (!(Math.round(new Date().getTime() / 1000) <= params.exp)) auth = false
                   if (token && auth) {
-                    $state.go('home')
+                    $state.target('home')
                     event.preventDefault()
                   }
                   }
