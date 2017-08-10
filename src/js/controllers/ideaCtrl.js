@@ -59,7 +59,7 @@ angular.module('wetopiaApp')
         }
 
         $scope.deleteFeedback = function(){
-          ideaDataService.deleteFeedback(currentComment, function(response){
+          ideaDataService.deleteFeedback(ideaname, $scope.currentPivot, currentComment, function(response){
             if(response.status==200){
               $scope.pivot.feedback.splice(commentIndex, 1);
             }
