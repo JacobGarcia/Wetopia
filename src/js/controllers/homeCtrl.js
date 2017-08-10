@@ -135,7 +135,7 @@ function getNotifications(){
 /**** NOTIFICATIONS SECTION ***/
 socket.on('socket', function(socketId){ // client gets the socket event here
   notificationDataService.getSocketInformation(socketId, (response) => {
-    if(response.status == 200) console.log("Successfully got socket information")
+    // if(response.status == 200) console.log("Successfully got socket information")
   })
 })
 
